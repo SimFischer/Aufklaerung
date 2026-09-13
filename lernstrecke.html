@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Lernstrecke in drei Kapiteln: Bürgertum, Tugend und Moral sowie die Rolle der Frau im Zeitalter der Aufklärung. Fachtexte mit interaktiver Überprüfung.">
+<title>Bürgertum, Tugend und Geschlecht in der Aufklärung</title>
+
+<style>
+:root{
+  --papier:#e7e1d2; --papier-hell:#f4f0e6; --papier-rein:#fbf8f0;
+  --tinte:#1f1c17; --tinte-mittel:#5c5448; --tinte-blass:#8b8272;
+  --linie:#c6bda8;
+  --buerger:#2c4655; --hof:#84293a; --gold:#9a7a2c;
+  --richtig:#3d6647; --falsch:#a03a2a;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,'Times New Roman',serif;
+  --sans:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-family:var(--sans)}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:78px}
+body{margin:0;background:var(--papier);color:var(--tinte);font-family:var(--sans);line-height:1.6;padding-bottom:100px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+.bahn{max-width:940px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+.eng{max-width:660px}
+
+/* Kopf */
+.kopf{padding:clamp(34px,7vw,70px) 0 clamp(24px,4vw,38px)}
+.kurs{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--tinte-blass);margin:0 0 14px}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,6vw,3.1rem);line-height:1.07;margin:0;letter-spacing:-.01em}
+h1 span{display:block;color:var(--hof);font-style:italic}
+.leitfrage{font-family:var(--serif);font-size:clamp(1.02rem,2.3vw,1.22rem);color:var(--tinte-mittel);max-width:56ch;margin:20px 0 0}
+
+/* Kapitelwahl */
+nav{position:-webkit-sticky;position:sticky;top:0;z-index:40;background:rgba(231,225,210,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--linie);border-bottom:1px solid var(--linie)}
+.reiter{display:flex;gap:4px;overflow-x:auto;padding:8px clamp(16px,4vw,32px);max-width:940px;margin:0 auto;-webkit-overflow-scrolling:touch}
+.reiter button{flex:0 0 auto;display:flex;align-items:center;gap:9px;padding:9px 14px;border:1px solid transparent;background:transparent;color:var(--tinte-mittel);font-size:.86rem;border-radius:2px;cursor:pointer;white-space:nowrap}
+.reiter button:hover{background:rgba(198,189,168,.4);color:var(--tinte)}
+.reiter button.an{background:var(--papier-rein);border-color:var(--linie);color:var(--tinte);font-weight:600}
+.reiter .zahl{font-family:var(--serif);color:var(--hof);font-size:.95rem}
+.punkt{width:7px;height:7px;border-radius:50%;border:1px solid var(--tinte-blass)}
+.punkt.voll{background:var(--richtig);border-color:var(--richtig)}
+
+/* Kapitel */
+.kapitel{display:none;padding:clamp(30px,6vw,56px) 0 0}
+.kapitel.an{display:block}
+.kapitel-kopf{border-bottom:1px solid var(--linie);padding-bottom:22px;margin-bottom:34px}
+.kapitel-nr{font-family:var(--serif);font-size:.88rem;color:var(--hof);letter-spacing:.1em;margin:0 0 8px}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.45rem,4vw,2.05rem);line-height:1.15;margin:0}
+.lesezeit{font-size:.8rem;color:var(--tinte-blass);margin:10px 0 0}
+
+/* Fachtext */
+.fachtext{font-family:var(--serif);font-size:clamp(1.02rem,2.3vw,1.12rem);line-height:1.68;max-width:64ch}
+.fachtext h3{font-family:var(--sans);font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--tinte-blass);margin:36px 0 12px}
+.fachtext p{margin:0 0 18px}
+.fachtext p.erst::first-letter{float:left;font-size:3.2em;line-height:.82;padding:.05em .09em 0 0;color:var(--hof)}
+.wort{
+  font-family:inherit;font-size:inherit;line-height:inherit;
+  border:none;border-bottom:1px dotted var(--hof);background:none;padding:0;
+  color:inherit;cursor:pointer;
+}
+.wort:hover{background:rgba(132,41,58,.09)}
+.wort.an{background:rgba(132,41,58,.14)}
+.erklaerfeld{
+  position:-webkit-sticky;position:sticky;bottom:12px;z-index:30;
+  margin:22px 0 0;padding:0 16px;max-height:0;overflow:hidden;opacity:0;
+  border-left:2px solid var(--gold);background:var(--papier-rein);
+  font-family:var(--sans);font-size:.9rem;color:var(--tinte-mittel);
+  transition:max-height .3s,opacity .3s,padding .3s;
+  box-shadow:0 2px 14px -8px rgba(31,28,23,.4);
+}
+.erklaerfeld.offen{max-height:220px;opacity:1;padding:14px 16px}
+.erklaerfeld b{color:var(--tinte)}
+
+.gelesen{margin:38px 0 0;padding:18px 20px;border:1px dashed var(--linie);border-radius:2px;background:var(--papier-hell);display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.gelesen p{margin:0;flex:1 1 240px;font-size:.9rem;color:var(--tinte-mittel)}
+
+/* Übungsteil */
+.uebungsteil{margin-top:12px;padding-top:10px}
+.uebungsteil > h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,3.4vw,1.7rem);margin:44px 0 6px}
+.uebungsteil > .vorsatz{font-size:.92rem;color:var(--tinte-mittel);max-width:60ch;margin:0 0 8px}
+
+.aufgabe{border-top:1px solid var(--linie);padding:32px 0 8px;margin-top:24px}
+.a-kopf{display:flex;gap:12px;align-items:baseline;margin-bottom:10px}
+.a-nr{font-family:var(--serif);font-size:.84rem;color:var(--hof);flex:0 0 auto}
+.a-titel{font-family:var(--serif);font-size:1.2rem;margin:0}
+.auftrag{font-size:.93rem;color:var(--tinte-mittel);max-width:62ch;margin:0 0 6px;border-left:2px solid var(--gold);padding-left:13px}
+
+button.tat{font-size:.85rem;font-weight:500;padding:9px 16px;border:1px solid var(--tinte-blass);border-radius:2px;background:transparent;color:var(--tinte);cursor:pointer;transition:background .15s,border-color .15s}
+button.tat:hover{background:rgba(198,189,168,.45)}
+button:focus-visible{outline:2px solid var(--hof);outline-offset:2px}
+button.primaer{background:var(--buerger);border-color:var(--buerger);color:var(--papier-hell);font-weight:600}
+button.primaer:hover{background:#38566a}
+.knopfzeile{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:20px}
+.rueck{font-size:.87rem;color:var(--tinte-mittel);flex:1 1 260px;min-width:220px;line-height:1.5}
+.rueck.gut{color:var(--richtig)}
+.rueck.schlecht{color:var(--falsch)}
+
+/* Karten & Fächer */
+.vorrat{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;min-height:50px;padding:11px;border:1px dashed var(--linie);border-radius:2px}
+.vorrat:empty::after{content:'Alle Karten sind verteilt.';color:var(--tinte-blass);font-size:.85rem;font-style:italic}
+.chip{font-size:.87rem;font-weight:500;padding:7px 13px;border:1px solid var(--tinte-blass);border-radius:2px;background:var(--papier-hell);color:var(--tinte);cursor:pointer}
+.chip:hover{background:#fff;border-color:var(--buerger)}
+.chip.gewaehlt{background:var(--buerger);border-color:var(--buerger);color:var(--papier-hell)}
+.chip.richtig{border-color:var(--richtig);background:rgba(61,102,71,.12);color:var(--richtig);cursor:default}
+.chip.richtig::before{content:'\2713\00a0';font-weight:700}
+.chip.falsch{border-color:var(--falsch);background:rgba(160,58,42,.1);animation:ruck .3s}
+@keyframes ruck{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.faecher{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:13px}
+.fach{padding:15px;border:1px solid var(--linie);border-radius:2px;background:rgba(244,240,230,.6);min-height:140px;display:flex;flex-direction:column;gap:11px;cursor:pointer}
+.fach:hover{border-color:var(--buerger)}
+.fach h4{font-size:.76rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--tinte-mittel);margin:0}
+.fach p{font-family:var(--serif);font-size:.87rem;color:var(--tinte-blass);margin:-5px 0 0;line-height:1.4}
+.fach-inhalt{display:flex;flex-wrap:wrap;gap:7px;align-content:flex-start}
+
+/* Reihenfolge */
+.folge{display:flex;flex-direction:column;gap:7px;margin-top:18px}
+.stufe{display:flex;gap:12px;border:1px solid var(--linie);border-radius:2px;background:var(--papier-hell);padding:11px 13px}
+.stufe-pos{font-size:.72rem;font-weight:600;color:var(--hof);align-self:center;flex:0 0 16px}
+.stufe-text{flex:1;font-family:var(--serif);font-size:1rem;line-height:1.45;align-self:center}
+.stufe-knoepfe{display:flex;flex-direction:column;gap:4px}
+.stufe-knoepfe button{padding:2px 9px;font-size:.78rem;line-height:1.3;border:1px solid var(--tinte-blass);background:transparent;border-radius:2px;cursor:pointer}
+.stufe.richtig{border-color:var(--richtig);background:rgba(61,102,71,.1)}
+.stufe.falsch{border-color:var(--falsch);animation:ruck .3s}
+
+/* Auswahl */
+.auswahl{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.aussage{text-align:left;width:100%;padding:13px 15px;border:1px solid var(--linie);border-radius:2px;background:var(--papier-hell);font-family:var(--serif);font-size:1rem;line-height:1.45;display:flex;gap:13px;align-items:flex-start;cursor:pointer}
+.aussage:hover{border-color:var(--buerger)}
+.kasten{flex:0 0 15px;height:15px;border:1px solid var(--tinte-blass);border-radius:1px;margin-top:4px}
+.aussage.an .kasten{background:var(--buerger);border-color:var(--buerger)}
+.aussage.richtig{border-color:var(--richtig);background:rgba(61,102,71,.1)}
+.aussage.falsch{border-color:var(--falsch);background:rgba(160,58,42,.08)}
+.grund{display:block;margin-top:7px;font-family:var(--sans);font-size:.85rem;color:var(--tinte-mittel);max-height:0;overflow:hidden;opacity:0;transition:max-height .3s,opacity .3s}
+.aussage.auf .grund{max-height:150px;opacity:1}
+
+/* Lückentext */
+.lueckentext{font-family:var(--serif);font-size:1.05rem;line-height:2.1;margin-top:18px;max-width:62ch}
+.luecke{
+  display:inline-block;min-width:120px;padding:2px 10px;margin:0 2px;
+  border:none;border-bottom:2px solid var(--tinte-blass);background:rgba(244,240,230,.8);
+  font-family:var(--serif);font-size:.97rem;color:var(--tinte-blass);cursor:pointer;text-align:center;
+}
+.luecke:hover{border-color:var(--buerger);color:var(--tinte)}
+.luecke.gewaehlt{border-color:var(--hof);background:rgba(132,41,58,.1)}
+.luecke.gefuellt{color:var(--tinte);border-color:var(--buerger)}
+.luecke.richtig{color:var(--richtig);border-color:var(--richtig);background:rgba(61,102,71,.1)}
+.luecke.falsch{color:var(--falsch);border-color:var(--falsch);background:rgba(160,58,42,.08)}
+
+/* Quiz */
+.frage-block{border:1px solid var(--linie);border-radius:2px;background:var(--papier-hell);padding:17px;margin-top:12px}
+.frage-text{font-family:var(--serif);font-size:1.05rem;line-height:1.45;margin:0 0 13px}
+.optionen{display:flex;flex-direction:column;gap:7px}
+.option{text-align:left;padding:10px 13px;border:1px solid var(--linie);border-radius:2px;background:var(--papier);font-family:var(--serif);font-size:.99rem;line-height:1.4;cursor:pointer}
+.option:hover{border-color:var(--buerger);background:#fff}
+.option.an{border-color:var(--buerger);background:rgba(44,70,85,.09)}
+.option.richtig{border-color:var(--richtig);background:rgba(61,102,71,.13);font-weight:600}
+.option.falsch{border-color:var(--falsch);background:rgba(160,58,42,.1)}
+.frage-erk{font-size:.86rem;color:var(--tinte-mittel);max-height:0;overflow:hidden;opacity:0;transition:max-height .3s,opacity .3s,margin .3s}
+.frage-erk.offen{max-height:200px;opacity:1;margin-top:12px;padding-top:10px;border-top:1px dashed var(--linie)}
+
+/* Wege */
+.fall{border:1px solid var(--tinte-blass);border-radius:2px;background:var(--papier-hell);padding:20px;margin-top:18px}
+.fall-lage{font-family:var(--serif);font-size:1.05rem;line-height:1.5;margin:0 0 18px}
+.fall-frage{font-size:.9rem;font-weight:600;color:var(--hof);margin:22px 0 10px}
+.wege{display:flex;flex-direction:column;gap:7px}
+.weg{text-align:left;width:100%;padding:12px 14px;border:1px solid var(--linie);background:var(--papier);font-family:var(--serif);font-size:.99rem;line-height:1.45;cursor:pointer}
+.weg:hover{border-color:var(--buerger);background:#fff}
+.weg.auf{border-color:var(--hof);background:rgba(132,41,58,.07)}
+.weg-folge{display:block;margin-top:8px;font-family:var(--sans);font-size:.85rem;color:var(--hof);max-height:0;overflow:hidden;opacity:0;transition:max-height .3s,opacity .3s}
+.weg.auf .weg-folge{max-height:200px;opacity:1}
+.sperre{display:block;margin-top:7px;font-size:.69rem;letter-spacing:.08em;text-transform:uppercase;color:var(--falsch)}
+
+/* Abschluss */
+.quellen{font-size:.86rem;color:var(--tinte-mittel);line-height:1.75;max-width:64ch}
+.quellen b{color:var(--tinte)}
+.hinweiskasten{margin-top:26px;padding:16px 18px;border-left:2px solid var(--hof);background:rgba(132,41,58,.05);font-size:.9rem;color:var(--tinte-mittel);max-width:64ch}
+
+@media (max-width:640px){.faecher{grid-template-columns:1fr}.fachtext p.erst::first-letter{font-size:2.6em}}
+@media print{
+  body{background:#fff;padding:0;font-size:10.5pt}
+  nav,.knopfzeile,.vorrat,.gelesen,.stufe-knoepfe,.erklaerfeld,.zurueck{display:none}
+  .kapitel{display:block!important}
+  .aufgabe{page-break-inside:avoid}
+  .grund,.frage-erk,.weg-folge{max-height:none!important;opacity:1!important}
+}
+
+.zurueck{
+  display:inline-block;margin-bottom:18px;
+  font-size:.82rem;letter-spacing:.04em;color:var(--tinte-blass);text-decoration:none;
+  border-bottom:1px solid transparent;
+}
+.zurueck:hover{color:var(--hof);border-bottom-color:var(--hof)}
+</style>
+</head>
+<body>
+
+<header class="kopf">
+  <div class="bahn">
+    <a class="zurueck" href="index.html">← Übersicht</a>
+    <p class="kurs">Deutsch · Jahrgangsstufe 11 · Epoche der Aufklärung</p>
+    <h1>Bürgertum, Tugend<span>und Geschlecht</span></h1>
+    <p class="leitfrage">Drei Kapitel. Ihr lest jeweils einen Fachtext und prüft danach an Aufgaben, ob ihr ihn wirklich verstanden habt. Wer bei einer Aufgabe hängt, geht in den Text zurück — dafür ist er da.</p>
+  </div>
+</header>
+
+<nav><div class="reiter" id="reiter"></div></nav>
+
+<!-- ==================== KAPITEL 1 ==================== -->
+<div class="kapitel an" id="k1">
+<div class="bahn">
+  <div class="kapitel-kopf">
+    <p class="kapitel-nr">Kapitel 1</p>
+    <h2>Das Bürgertum im Zeitalter der Aufklärung</h2>
+    <p class="lesezeit">Lesezeit etwa 8 Minuten · danach drei Aufgaben</p>
+  </div>
+
+  <article class="fachtext">
+    <p class="erst">Wer im 18. Jahrhundert von einem <button class="wort" data-erk="Ursprünglich ein Rechtsbegriff: Bürger ist, wer das Bürgerrecht einer Stadt besitzt. Erst im Lauf des 18. Jahrhunderts verschiebt sich die Bedeutung hin zu einer sozialen Gruppe mit gemeinsamer Lebensform.">Bürger</button> sprach, meinte zunächst etwas Rechtliches. Bürger war, wer in einer Stadt das Bürgerrecht besaß: das Recht, dort ein Gewerbe zu betreiben, Grundbesitz zu haben und an der städtischen Selbstverwaltung teilzunehmen. Das traf auf einen kleinen Teil der Bevölkerung zu. Der weitaus größte Teil der Menschen lebte auf dem Land und arbeitete in der Landwirtschaft, oft in Abhängigkeit von einem Grundherrn.</p>
+
+    <p>Die Gesellschaft war eine <button class="wort" data-erk="Gesellschaftsordnung, in der die Zugehörigkeit zu einem Stand durch Geburt festgelegt ist und Rechte, Pflichten, Kleidung, Beruf und Heiratsmöglichkeiten bestimmt. Aufstieg ist die seltene Ausnahme.">Standesgesellschaft</button>. Wo jemand stand, entschied nicht seine Leistung, sondern seine Geburt. Adel, Geistlichkeit, Bürger und Bauern hatten unterschiedliche Rechte, zahlten unterschiedliche Steuern und unterstanden unterschiedlichen Gerichten. Der Adel besaß Privilegien, die er nicht erworben hatte und nicht verlieren konnte. Für das Bürgertum bedeutete das: Wie erfolgreich ein Kaufmann auch wirtschaftete, den Zugang zu den höchsten Staatsämtern, zum Offizierskorps oder zum Hof öffnete ihm das in der Regel nicht.</p>
+
+    <h3>Eine Schicht, die keine ist</h3>
+
+    <p>Schon Zeitgenossen fiel es schwer zu sagen, wer eigentlich dazugehörte. Zwischen einem Hamburger Großkaufmann, einem Universitätsprofessor, einem Landpfarrer und einem Schuhmacher lagen Welten — in Einkommen, Bildung und Ansehen. Man behalf sich mit der unscharfen Bezeichnung <button class="wort" data-erk="Zeitgenössischer Sammelbegriff für alles zwischen Adel und einfacher Bevölkerung. Der Plural verrät das Problem: Es handelt sich gerade nicht um einen einheitlichen Stand.">„mittlere Stände“</button>, im Plural. Der Plural verrät das Problem. Ein einheitlicher bürgerlicher Stand mit gemeinsamen Interessen und gemeinsamem Auftreten existierte nicht.</p>
+
+    <p>Grob lassen sich drei Gruppen unterscheiden. Erstens die Gebildeten im Staatsdienst: Juristen, Verwaltungsbeamte, Pfarrer, Ärzte, Professoren, Lehrer. Sie verdankten ihre Stellung einem Studium und einer Prüfung — ein Aufstiegsweg, der über Leistung führte und nicht über Geburt. Zweitens das Wirtschaftsbürgertum: Kaufleute, Bankiers, Verleger, Manufakturbesitzer. Drittens die städtischen Handwerker und Krämer, deren Einkommen oft bescheiden war, die aber lesen konnten und zum Publikum der neuen Zeitschriften gehörten.</p>
+
+    <p>Die erste Gruppe war in Deutschland auffallend stark. Das hatte politische Gründe. Das Reich war in rund dreihundert Territorien zersplittert, jedes mit eigenem Hof, eigener Verwaltung, eigener Universität. Anders als in Frankreich oder England gab es keine Hauptstadt, in der sich Geld, Macht und Öffentlichkeit bündelten, und keinen großen einheitlichen Binnenmarkt. Die Fürsten brauchten dagegen ausgebildete Beamte, und diese Beamten kamen aus dem Bürgertum. Wer aufstieg, stieg also im Dienst des Fürsten auf — nicht gegen ihn.</p>
+
+    <h3>Die Entstehung einer Öffentlichkeit</h3>
+
+    <p>Politisch hatte das Bürgertum nichts mitzureden. Es gab keine Parlamente mit echten Befugnissen, keine Parteien, keine Wahlen. Reformen kamen, wenn sie kamen, von oben: Herrscher wie Friedrich II. von Preußen oder Joseph II. von Österreich verstanden sich als erste Diener ihres Staates, schafften die Folter ab, förderten Schulen und lockerten die <button class="wort" data-erk="Staatliche oder kirchliche Vorabkontrolle von Druckerzeugnissen. Sie wurde im 18. Jahrhundert gelockert, aber nicht abgeschafft; Kritik am Landesherrn blieb gefährlich.">Zensur</button> — ohne jedoch Macht abzugeben. Der Historiker spricht vom aufgeklärten Absolutismus: aufgeklärt in den Mitteln, absolut im Anspruch.</p>
+
+    <p>Was das Bürgertum stattdessen entwickelte, war etwas Neues: eine <button class="wort" data-erk="Der Raum, in dem Privatleute öffentlich über allgemeine Fragen diskutieren. Er entsteht im 18. Jahrhundert in Zeitschriften, Kaffeehäusern und Vereinen – zunächst über Literatur und Moral, später auch über Politik.">Öffentlichkeit</button>. Seit den 1720er Jahren erschienen moralische Wochenschriften nach englischem Vorbild, die erste bedeutende deutsche 1724 in Hamburg. Ab der Jahrhundertmitte wuchs die Zahl der Bücher, Zeitschriften und Leihbibliotheken rasant; Forscher sprechen von einer Leserevolution. In Lesegesellschaften trafen sich Kaufleute, Beamte und Gelehrte, um gemeinsam Zeitschriften zu halten und über sie zu diskutieren. Entscheidend war die Regel, die dort galt: Es zählte das bessere Argument, nicht der höhere Rang. Ein Publikum von Privatleuten übte, öffentlich zu urteilen.</p>
+
+    <p>Diese Öffentlichkeit war zunächst keine politische. Man verhandelte Literatur, Erziehung, Geschmack und Moral. Aber sie war die Übung dafür. Wer gelernt hatte, ein Theaterstück nach Gründen zu beurteilen statt nach dem Urteil des Fürsten, konnte dasselbe Verfahren später auf andere Gegenstände anwenden.</p>
+
+    <h3>Abgrenzung nach zwei Seiten</h3>
+
+    <p>Das Bürgertum bestimmte sich vor allem dadurch, was es nicht war. Nach oben grenzte es sich gegen den Adel ab, dem es Müßiggang, Verschwendung und Verstellung vorwarf: Am Hof gelte nicht, was einer ist, sondern was er darstellt. Dagegen setzte das Bürgertum Arbeit, Sparsamkeit und Aufrichtigkeit. Nach unten grenzte es sich gegen die ungebildete Masse ab, der es Vernunft und Selbstbeherrschung absprach. Die Forderung, jeder Mensch solle sich seines eigenen Verstandes bedienen, war ernst gemeint — aber niemand rechnete damit, dass Mägde und Tagelöhner sie auf sich beziehen würden.</p>
+
+    <p>Aus dieser Lage ergibt sich ein Grundzug, der für die Literatur der Zeit entscheidend wird. Ein Stand, der über Bildung und Besitz verfügt, aber über keinerlei politische Handlungsmöglichkeit, verlegt seine Konflikte dorthin, wo er tatsächlich handeln kann: in die Familie, in die Freundschaft, in das Innere. Und er verlegt sie auf die Bühne und in den Roman. Die Literatur wird zum Ort, an dem verhandelt wird, was anderswo nicht verhandelt werden darf.</p>
+  </article>
+
+  <div class="erklaerfeld" id="erk1"></div>
+
+  <div class="gelesen">
+    <p>Gelesen? Dann prüft unten, was hängen geblieben ist. Der Text bleibt dabei geöffnet — Nachschlagen ist ausdrücklich erlaubt.</p>
+  </div>
+
+  <div class="uebungsteil" id="u1"></div>
+</div>
+</div>
+
+<!-- ==================== KAPITEL 2 ==================== -->
+<div class="kapitel" id="k2">
+<div class="bahn">
+  <div class="kapitel-kopf">
+    <p class="kapitel-nr">Kapitel 2</p>
+    <h2>Tugend und Moral</h2>
+    <p class="lesezeit">Lesezeit etwa 8 Minuten · danach drei Aufgaben</p>
+  </div>
+
+  <article class="fachtext">
+    <p class="erst">Kein Wort begegnet einem in Texten des 18. Jahrhunderts so oft wie <button class="wort" data-erk="Im 18. Jahrhundert die sittlich gute Haltung eines Menschen, die sich in seinem Handeln zeigt. Anders als heute war das Wort weder altmodisch noch ironisch, sondern ein zentraler Maßstab.">Tugend</button>. Es steht in Predigten, in Zeitschriften, in Erziehungsbüchern, in Romanen und Dramen. Um zu verstehen, warum, muss man sehen, was sich an diesem Begriff verändert hatte.</p>
+
+    <p>Bis ins 17. Jahrhundert war Moral vor allem eine Sache der Religion. Gut war, was Gott geboten hatte; der Maßstab lag jenseits dieser Welt, und das Ziel war das Seelenheil. Die Aufklärung verschob beides. Sittliche Regeln, so die neue Überzeugung, lassen sich aus der Vernunft selbst ableiten — auch ohne Offenbarung. Und ihr Ziel liegt im Diesseits: in der <button class="wort" data-erk="Zentraler Begriff der Aufklärungsphilosophie, besonders bei Christian Wolff. Gemeint ist nicht flüchtiges Vergnügen, sondern ein dauerhafter Zustand des Wohlergehens, den man durch vernünftige Lebensführung erreicht.">Glückseligkeit</button> des Einzelnen und im Wohl der Gesellschaft. Das machte Moral zu etwas Lernbarem. Wenn Tugend auf Einsicht beruht, dann kann man sie lehren — und genau das taten die moralischen Wochenschriften, die Erziehungsschriften und, wie sich zeigen wird, das Theater.</p>
+
+    <h3>Die Tugenden des Erwerbslebens</h3>
+
+    <p>Welche Tugenden gemeint waren, verrät viel über die Gruppe, die sie predigte. Fleiß, Sparsamkeit, Ordnung, Pünktlichkeit, Gewissenhaftigkeit, Pflichtbewusstsein: Das sind Eigenschaften, die sich in einem Kontor oder einer Amtsstube auszahlen. Sie sind nicht neben dem bürgerlichen Erwerbsleben entstanden, sondern in ihm. Was als sittliche Forderung auftritt, ist zugleich das, was einen Betrieb am Laufen hält.</p>
+
+    <p>Das ist kein Vorwurf, aber eine wichtige Beobachtung. Die bürgerliche Moral hatte eine Funktion: Sie stärkte das Selbstbewusstsein einer Gruppe, die Ansehen nicht erben konnte. Wer sein Ansehen nicht durch Geburt bekommt, muss es sich erarbeiten — und braucht einen Maßstab, nach dem Arbeit Ansehen verschafft. Genau das leistet der Tugendbegriff. Er kehrt die Rangordnung um: Nicht der Geburtsadel zählt, sondern der „Adel der Gesinnung“.</p>
+
+    <p>Deshalb war die Abgrenzung gegen den Hof so heftig. Höfisches Verhalten galt als Verstellung: ein ausgefeiltes Zeremoniell, in dem jeder eine Rolle spielt und niemand meint, was er sagt. Dagegen stellte das Bürgertum die Aufrichtigkeit — die Übereinstimmung von Innerem und Äußerem. Ob Bürger tatsächlich aufrichtiger waren als Höflinge, ist eine andere Frage. Als Selbstbeschreibung war die Entgegensetzung ungeheuer wirksam.</p>
+
+    <h3>Das Gefühl kommt hinzu</h3>
+
+    <p>Seit den 1740er Jahren tritt neben die Vernunft eine zweite Instanz: das Gefühl. Die Strömung der <button class="wort" data-erk="Literarische und kulturelle Strömung ab etwa 1740. Sie schätzt Gefühl, Freundschaft, Mitleid und Tränen als Ausweis eines guten Herzens. Wichtige Formen: Briefroman, Freundschaftsdichtung, rührendes Lustspiel.">Empfindsamkeit</button> geht davon aus, dass ein guter Mensch nicht nur richtig denkt, sondern richtig fühlt. Wer bei fremdem Unglück gerührt wird, zeigt damit die Qualität seines Herzens. Wurzeln hat das im <button class="wort" data-erk="Protestantische Frömmigkeitsbewegung, die das persönliche Glaubenserlebnis und die Selbstbeobachtung betont. Ihre Praxis der Gewissensprüfung prägt die literarische Darstellung von Innerlichkeit.">Pietismus</button> mit seiner Schulung der Selbstbeobachtung.</p>
+
+    <p>Diese Aufwertung des Gefühls steht nicht im Widerspruch zur Aufklärung, sondern ergänzt sie. Schiller formuliert es später zugespitzt: Der Weg zum Kopf müsse durch das Herz geöffnet werden. Einsicht allein ändert niemanden; sie muss den Charakter erreichen.</p>
+
+    <p>Für die Literatur hatte das Folgen. Lessing bestimmt das Mitleid als die eigentliche Wirkung der Tragödie: Der mitleidigste Mensch sei der beste. Ein Theater, das rührt, erzieht. Und rühren kann es nur, wenn die Zuschauer sich in den Figuren wiedererkennen — was Könige und Feldherren schwierig macht. So entsteht um die Mitte des Jahrhunderts eine neue Gattung, das <button class="wort" data-erk="Neue Gattung ab 1755 (Lessings „Miss Sara Sampson“). Anders als die klassische Tragödie zeigt sie bürgerliche Figuren in privaten, meist familiären Konflikten und zielt auf Rührung und Mitleid.">bürgerliche Trauerspiel</button>, das bürgerliche Figuren in häuslichen Konflikten zeigt. Der Schauplatz ist nicht mehr der Thronsaal, sondern das Wohnzimmer.</p>
+
+    <h3>Ein Widerspruch, der bleibt</h3>
+
+    <p>Die bürgerliche Moral trägt einen ungelösten Konflikt in sich. Sie fordert, zum Gemeinwohl beizutragen — und sie beruht auf einem Erwerbsleben, in dem man sich gegen Konkurrenten durchsetzt. Wer im Geschäft hart ist und zu Hause mildtätig, hat den Widerspruch nicht aufgelöst, sondern aufgeteilt: Härte nach außen, Güte im Privaten. Die Geste der Wohltätigkeit gleicht aus, was der Erwerb kostet.</p>
+
+    <p>Und noch etwas gehört zum Bild. Eine Moral, die auf Selbstbeherrschung und ständige Selbstprüfung setzt, ist nicht nur befreiend. Sie diszipliniert auch. Was als Befreiung von kirchlicher Bevormundung begann, wird zur inneren Aufsicht, die man nicht abschütteln kann, weil man sie selbst führt. Für Figuren der Literatur — und besonders für weibliche Figuren, wie das nächste Kapitel zeigt — wird das folgenreich.</p>
+  </article>
+
+  <div class="erklaerfeld" id="erk2"></div>
+
+  <div class="gelesen">
+    <p>Gelesen? Dann prüft, ob die Zusammenhänge sitzen. Bei den Aufgaben geht es weniger um Namen und Jahreszahlen als um die Verbindungen zwischen ihnen.</p>
+  </div>
+
+  <div class="uebungsteil" id="u2"></div>
+</div>
+</div>
+
+<!-- ==================== KAPITEL 3 ==================== -->
+<div class="kapitel" id="k3">
+<div class="bahn">
+  <div class="kapitel-kopf">
+    <p class="kapitel-nr">Kapitel 3</p>
+    <h2>Die Rolle der Frau in der Aufklärung</h2>
+    <p class="lesezeit">Lesezeit etwa 9 Minuten · danach vier Aufgaben</p>
+  </div>
+
+  <article class="fachtext">
+    <p class="erst">Die Aufklärung fordert, jeder Mensch solle den Mut haben, sich seines eigenen Verstandes zu bedienen. Für Frauen galt diese Forderung nach herrschender Meinung nicht — oder nur in einem eng abgesteckten Bereich. Dieser Widerspruch ist kein Randproblem der Epoche. Er zeigt, wie weit ihr Freiheitsversprechen reichte und wo es endete.</p>
+
+    <p>Rechtlich stand die Frau unter der Gewalt eines Mannes: vor der Ehe unter der des Vaters, danach unter der des Ehemanns. In vielen Territorien bestand eine Geschlechtsvormundschaft, die Frauen bei Rechtsgeschäften einen männlichen Beistand vorschrieb. Das Preußische Allgemeine Landrecht von 1794 bestimmte den Mann zum Haupt der ehelichen Gemeinschaft; er entschied über den Wohnort und über die Erziehung der Kinder. Geschiedene und verwitwete Frauen hatten größere Spielräume als verheiratete — eine Eigenart, die zeigt, dass es nicht um Fähigkeiten ging, sondern um die Einordnung in eine Ordnung.</p>
+
+    <h3>Vom „ganzen Haus“ zur Hausfrau</h3>
+
+    <p>Dabei war die Frau im älteren Hauswesen keineswegs untätig. Im sogenannten <button class="wort" data-erk="Forschungsbegriff für die vormoderne Wirtschafts- und Lebensgemeinschaft, in der Familie, Gesinde und Betrieb unter einem Dach zusammengehören. Produziert wird dort, wo gewohnt wird.">„ganzen Haus“</button> waren Wohnen und Wirtschaften dasselbe: In der Werkstatt, im Laden, auf dem Hof arbeiteten Frau, Kinder und Gesinde mit. Die Hausfrau führte einen Betriebsteil; Witwen setzten Handwerksbetriebe fort.</p>
+
+    <p>Im Lauf des 18. Jahrhunderts verlagerte sich die Erwerbsarbeit aus dem Haus heraus — in Kontore, Ämter, Manufakturen. Der Mann ging dorthin, wo verdient wurde. Zurück blieb ein Haus, das nicht mehr produzierte, sondern verbrauchte. Die Tätigkeit der Frau verlor damit ihren wirtschaftlichen Charakter und wurde zur „Bestimmung“ umgedeutet.</p>
+
+    <p>Genau in dieser Zeit entsteht, was die Geschichtswissenschaft die <button class="wort" data-erk="Von Karin Hausen 1976 geprägte Bezeichnung. Beschreibt, wie im späten 18. Jahrhundert Eigenschaften systematisch auf die Geschlechter verteilt und als Natur ausgegeben werden – parallel zur Trennung von Erwerbs- und Familienleben.">Polarisierung der Geschlechtscharaktere</button> nennt. Eigenschaften werden paarweise verteilt: dem Mann Tätigkeit, Vernunft, Willenskraft, Wirksamkeit nach außen; der Frau Empfänglichkeit, Gefühl, Hingebung, Häuslichkeit. Das Entscheidende ist der letzte Schritt. Diese Verteilung wird nicht als geschichtliche Entwicklung beschrieben, sondern als Natur ausgegeben — und damit der Kritik entzogen. Wer sie angreift, greift scheinbar nicht eine Einrichtung an, sondern die Schöpfung.</p>
+
+    <h3>Bildung: erlaubt, aber begrenzt</h3>
+
+    <p>Universitäten standen Frauen nicht offen. Die Ausnahme bestätigt die Regel: Dorothea Erxleben erhielt 1754 in Halle als erste Deutsche den medizinischen Doktorgrad — auf ausdrückliche königliche Verfügung hin. Töchter des Bürgertums lernten Lesen, Schreiben, Rechnen, Handarbeiten, oft Französisch und Musik. Gelehrsamkeit dagegen galt als unweiblich; die spottende Figur des „gelehrten Frauenzimmers“ gehört zum festen Bestand der Zeit.</p>
+
+    <p>Lesen wurde zugestanden — sofern es das Richtige war. Als Frauen zum wichtigsten Publikum der Romane wurden, entstand die Klage über die weibliche „Lesesucht“: Romane, so die Sorge, weckten Erwartungen an das Leben, die die vorgesehene Rolle nicht erfüllt. Dass diese Sorge nicht ganz unbegründet war, zeigt die Wirkung der empfindsamen Romane.</p>
+
+    <p>Einige Frauen schrieben selbst. Sophie von La Roche veröffentlichte 1771 die „Geschichte des Fräuleins von Sternheim“, einen der ersten Romane einer deutschsprachigen Autorin, der breite Wirkung entfaltete. Bezeichnend ist die Form der Veröffentlichung: Wieland gab das Buch heraus und rechtfertigte es in einem Vorwort — die Autorschaft einer Frau brauchte eine männliche Beglaubigung.</p>
+
+    <h3>Tugend, die nur verloren gehen kann</h3>
+
+    <p>Der Tugendbegriff des vorigen Kapitels wird für Frauen entscheidend verengt. Beim Mann fächert sich Tugend auf: Fleiß im Beruf, Redlichkeit im Geschäft, Großmut gegenüber Schwächeren. Bei der Frau zieht sie sich auf einen Punkt zusammen — ihre geschlechtliche Unbescholtenheit. Daraus folgen drei Dinge.</p>
+
+    <p>Erstens: Diese Tugend lässt sich nicht mehren, nur verlieren. Es gibt keine Leistung, durch die eine Frau tugendhafter würde; es gibt nur den Zustand und seine Gefährdung. Zweitens: Deshalb muss sie bewacht werden, und die Aufsicht erscheint als Fürsorge. Drittens: Sie ist keine Privatsache. Die <button class="wort" data-erk="Im 18. Jahrhundert kein innerer Wert, sondern das Ansehen in den Augen anderer. Deshalb kann sie durch ein bloßes Gerücht beschädigt werden, unabhängig davon, was tatsächlich geschehen ist.">Ehre</button> der Tochter gehört zum Ansehen der ganzen Familie und damit zu ihrem Kapital. Über sie entscheidet nicht sie selbst, sondern der Vater.</p>
+
+    <p>Weil Ehre im Ansehen anderer besteht, genügt zu ihrer Zerstörung das Gerede. Ob tatsächlich etwas geschehen ist, ist zweitrangig. Und anders als beim bürgerlichen Mann, dessen Ansehen an seiner Tätigkeit hängt und sich wiederherstellen lässt, gibt es hier keinen Weg zurück.</p>
+
+    <p>Auch die Ehe verändert sich in dieser Zeit. Neben die von den Eltern arrangierte Verbindung tritt das neue Ideal der Neigungsehe, in der Zuneigung den Ausschlag geben soll. Das ist ein Fortschritt — und erzeugt zugleich einen neuen Konflikt: zwischen dem, was die Tochter empfindet, und dem, was der Vater für richtig hält. Die Literatur der Zeit lebt von diesem Konflikt.</p>
+
+    <h3>Die Gegenstimmen</h3>
+
+    <p>Es wäre falsch, die Unterordnung als unbestrittene Selbstverständlichkeit darzustellen. Rousseau bestimmte 1762 im „Émile“ die Erziehung der Frau ganz von den Männern her, und Joachim Heinrich Campe schrieb 1789 ein vielgelesenes Erziehungsbuch, das Töchtern Gattin, Hausfrau und Mutter als Bestimmung zuwies. Doch dagegen wurde argumentiert, und zwar mit den Mitteln der Aufklärung selbst. Theodor Gottlieb von Hippel, Königsberger Bürgermeister, forderte 1792 die bürgerliche Gleichstellung der Frauen und hielt seiner Zeit vor, sie erkläre die Hälfte ihrer Mitglieder für unmündig und nenne das dann Natur. Im selben Jahr erschien in London Mary Wollstonecrafts Verteidigung der Rechte der Frau mit dem Argument, die angebliche weibliche Schwäche sei nicht Natur, sondern das Ergebnis einer Erziehung, die den Verstand gar nicht erst ausbildet. In Frankreich hatte Olympe de Gouges 1791 eine Erklärung der Rechte der Frau vorgelegt.</p>
+
+    <p>Diese Stimmen blieben in der Minderheit und ohne unmittelbare Folgen. Aber sie zeigen: Die Ordnung war begründungsbedürftig geworden. Wer sie verteidigte, musste argumentieren — und griff dabei regelmäßig zum stärksten verfügbaren Argument, der Natur. Das ist nicht die Sprache der Selbstverständlichkeit. Es ist die Sprache der Verteidigung.</p>
+  </article>
+
+  <div class="erklaerfeld" id="erk3"></div>
+
+  <div class="gelesen">
+    <p>Gelesen? Die letzte Aufgabe dieses Kapitels ist keine Wissensabfrage, sondern ein Durchspielen. Nehmt euch dafür Zeit.</p>
+  </div>
+
+  <div class="uebungsteil" id="u3"></div>
+</div>
+</div>
+
+<!-- ==================== QUELLEN ==================== -->
+<div class="kapitel" id="k4">
+<div class="bahn">
+  <div class="kapitel-kopf">
+    <p class="kapitel-nr">Anhang</p>
+    <h2>Grundlagen und Hinweise</h2>
+  </div>
+  <p class="quellen" id="quellen"></p>
+  <div class="hinweiskasten">
+    Die drei Fachtexte sind eigens für diese Lernstrecke geschrieben und geben den Forschungsstand in eigener Formulierung wieder. Sie enthalten keine Zitate aus geschützten Darstellungen. Jahreszahlen und Werktitel sind belegbar; wo die Forschung uneinheitlich urteilt, ist das im Text kenntlich gemacht.
+  </div>
+</div>
+</div>
+
+<script>
+"use strict";
+
+/* ==================== Aufgabendaten ==================== */
+
+const AUFGABEN = {
+
+k1:[
+ {typ:"zuordnen", titel:"Die drei Gruppen",
+  auftrag:"Der Text unterscheidet drei Gruppen innerhalb der „mittleren Stände“. Ordnet zu. Karte antippen, dann Feld antippen.",
+  faecher:[
+    {id:"g1", titel:"Gebildete im Staatsdienst", hinweis:"Stellung durch Studium und Prüfung"},
+    {id:"g2", titel:"Wirtschaftsbürgertum", hinweis:"Stellung durch eigenes Kapital"},
+    {id:"g3", titel:"Handwerk und Kleinhandel", hinweis:"Bescheidenes Einkommen, aber lesefähig"}],
+  karten:[{n:"Juristen",z:"g1"},{n:"Verwaltungsbeamte",z:"g1"},{n:"Pfarrer",z:"g1"},{n:"Ärzte",z:"g1"},
+          {n:"Professoren",z:"g1"},{n:"Lehrer",z:"g1"},
+          {n:"Kaufleute",z:"g2"},{n:"Bankiers",z:"g2"},{n:"Verleger",z:"g2"},{n:"Manufakturbesitzer",z:"g2"},
+          {n:"Handwerker",z:"g3"},{n:"Krämer",z:"g3"}],
+  fazit:"Richtig. Achtet auf das Gewicht: Die erste Gruppe war in Deutschland besonders stark, weil dreihundert Territorien dreihundert Verwaltungen brauchten. Wer über Bildung aufstieg, stieg im Dienst des Fürsten auf — und damit nicht gegen ihn."},
+
+ {typ:"auswahl", titel:"Stimmt das so?",
+  auftrag:"Kreuzt nur die Aussagen an, die nach dem Text zutreffen. Vier von sieben sind richtig.",
+  aussagen:[
+   {s:"Das Bürgertum stellte im 18. Jahrhundert die Mehrheit der Bevölkerung.", r:false,
+    g:"Falsch. Der weitaus größte Teil der Menschen lebte auf dem Land und arbeitete in der Landwirtschaft."},
+   {s:"In der Standesgesellschaft entschied die Geburt über Rechte, Steuern und Gerichtsstand.", r:true,
+    g:"Richtig. Und genau daran konnte wirtschaftlicher Erfolg nichts ändern."},
+   {s:"Ein erfolgreicher Kaufmann konnte durch sein Vermögen in den höchsten Staatsdienst aufsteigen.", r:false,
+    g:"Falsch. Die höchsten Ämter, das Offizierskorps und der Hof blieben in der Regel dem Adel vorbehalten."},
+   {s:"Die deutsche Zersplitterung in rund dreihundert Territorien stärkte die Gruppe der gebildeten Beamten.", r:true,
+    g:"Richtig. Jedes Territorium unterhielt Hof, Verwaltung und oft eine Universität — und brauchte dafür ausgebildetes Personal."},
+   {s:"Der aufgeklärte Absolutismus gab dem Bürgertum politische Mitbestimmung.", r:false,
+    g:"Falsch. Reformen kamen von oben. Aufgeklärt waren die Mittel, absolut blieb der Anspruch."},
+   {s:"In den Lesegesellschaften galt die Regel, dass das bessere Argument zählt und nicht der höhere Rang.", r:true,
+    g:"Richtig. Das ist die entscheidende Übung: öffentlich urteilen nach Gründen."},
+   {s:"Die bürgerliche Öffentlichkeit verhandelte von Anfang an politische Fragen.", r:true,
+    g:"Das ist nicht richtig — sie verhandelte zunächst Literatur, Geschmack, Erziehung und Moral. Die politische Anwendung kam später. Diese Aussage war die schwierigste."}],
+  fazit:"Die vier zutreffenden Aussagen hängen zusammen: Eine Gruppe ohne politische Rechte entwickelt eine Ersatzarena, in der andere Regeln gelten als draußen. Genau deshalb wird Literatur im 18. Jahrhundert so wichtig."},
+
+ {typ:"luecke", titel:"Begriffe an ihren Platz",
+  auftrag:"Setzt die Fachbegriffe ein. Zwei Wörter bleiben übrig — sie passen in keine Lücke.",
+  woerter:["Standesgesellschaft","mittlere Stände","Zensur","Öffentlichkeit","Leserevolution","aufgeklärten Absolutismus","Neigungsehe","Empfindsamkeit"],
+  saetze:[
+   {v:"In der ", l:"Standesgesellschaft", n:" entschied die Geburt über die Stellung eines Menschen."},
+   {v:"Für die Gruppen zwischen Adel und einfacher Bevölkerung verwendete man den unscharfen Ausdruck ", l:"mittlere Stände", n:"."},
+   {v:"Herrscher wie Friedrich II. lockerten die ", l:"Zensur", n:", ohne jedoch Macht abzugeben."},
+   {v:"Dieses Regierungsmodell bezeichnet man als ", l:"aufgeklärten Absolutismus", n:"."},
+   {v:"Der rasche Anstieg von Büchern, Zeitschriften und Leihbibliotheken ab der Jahrhundertmitte wird als ", l:"Leserevolution", n:" bezeichnet."},
+   {v:"In Zeitschriften und Lesegesellschaften entstand eine bürgerliche ", l:"Öffentlichkeit", n:", in der Privatleute öffentlich urteilen lernten."}],
+  fazit:"Sitzt. Die beiden übrigen Wörter, Neigungsehe und Empfindsamkeit, gehören in die folgenden Kapitel — behaltet sie im Kopf."}
+],
+
+k2:[
+ {typ:"reihenfolge", titel:"Wie Moral ihren Ort wechselt",
+  auftrag:"Bringt die Schritte in die Reihenfolge, in der der Text sie entwickelt. Mit den Pfeilen verschieben.",
+  schritte:[
+   "Moral gilt zunächst als Sache der Religion: Gut ist, was Gott geboten hat.",
+   "Die Aufklärung hält sittliche Regeln für aus der Vernunft ableitbar, auch ohne Offenbarung.",
+   "Damit rückt das Ziel ins Diesseits: Glückseligkeit des Einzelnen und Wohl der Gesellschaft.",
+   "Weil Tugend auf Einsicht beruht, lässt sie sich lehren — in Wochenschriften, Erziehungsbüchern, auf dem Theater.",
+   "Seit den 1740er Jahren tritt das Gefühl neben die Vernunft: Wer richtig fühlt, zeigt ein gutes Herz.",
+   "Lessing bestimmt das Mitleid als Wirkung der Tragödie — ein Theater, das rührt, erzieht.",
+   "Damit die Zuschauer sich wiedererkennen, braucht es bürgerliche Figuren: das bürgerliche Trauerspiel entsteht."],
+  fazit:"Genau diese Reihe. Der Weg führt von der Religion über die Vernunft zum Gefühl und endet bei einer neuen Theatergattung. Wer diesen Bogen behält, versteht, warum im 18. Jahrhundert ein Hausvater auf der Bühne stehen kann, wo vorher nur Könige standen."},
+
+ {typ:"zuordnen", titel:"Hof gegen Haus",
+  auftrag:"Das Bürgertum beschrieb sich selbst durch Gegensätze zum Hof. Ordnet die Begriffe der Seite zu, der sie in dieser Selbstbeschreibung zugerechnet wurden. Es geht um Zuschreibungen, nicht um Tatsachen.",
+  faecher:[
+   {id:"hof", titel:"Dem Hof zugerechnet", hinweis:"So sah das Bürgertum den Adel"},
+   {id:"bue", titel:"Dem Bürgertum zugerechnet", hinweis:"So sah es sich selbst"}],
+  karten:[{n:"Verstellung",z:"hof"},{n:"Zeremoniell",z:"hof"},{n:"Müßiggang",z:"hof"},
+          {n:"Verschwendung",z:"hof"},{n:"Ehre durch Geburt",z:"hof"},
+          {n:"Aufrichtigkeit",z:"bue"},{n:"Fleiß",z:"bue"},{n:"Sparsamkeit",z:"bue"},
+          {n:"Häuslichkeit",z:"bue"},{n:"Ehre durch Leistung",z:"bue"}],
+  fazit:"Richtig — und jetzt der wichtige Vorbehalt, der im Text steht: Ob Bürger tatsächlich aufrichtiger waren als Höflinge, ist damit nicht gesagt. Das ist eine Selbstbeschreibung, kein Befund. Als Selbstbeschreibung war sie allerdings außerordentlich wirksam."},
+
+ {typ:"quiz", titel:"Zusammenhänge prüfen",
+  auftrag:"Vier Fragen. Es geht jeweils um das Warum, nicht um die Jahreszahl.",
+  fragen:[
+   {f:"Warum predigte gerade das Bürgertum die Tugenden Fleiß, Sparsamkeit und Pünktlichkeit?",
+    opt:["Weil die Kirche sie vorschrieb","Weil sie sich im Erwerbsleben auszahlten und Ansehen durch Arbeit begründeten","Weil der Adel sie verboten hatte","Weil sie aus der Antike überliefert waren"],
+    r:1, erk:"Wer Ansehen nicht erben kann, braucht einen Maßstab, nach dem Arbeit Ansehen verschafft. Der Tugendbegriff leistet genau das — er kehrt die Rangordnung um."},
+   {f:"Was meint der Ausdruck „Adel der Gesinnung“?",
+    opt:["Einen neu geschaffenen Adelsstand","Die Behauptung, innere Haltung wiege schwerer als Geburt","Eine Form der Anrede bei Hofe","Den niederen Landadel"],
+    r:1, erk:"Die Formel dreht die Standesordnung um: Nicht die Herkunft adelt, sondern die Haltung. Das ist der Kern der bürgerlichen Selbstbehauptung."},
+   {f:"Warum braucht ein Theater, das durch Mitleid erziehen will, bürgerliche Figuren?",
+    opt:["Weil Könige zu teuer darzustellen waren","Weil Mitleid Wiedererkennung voraussetzt","Weil die Zensur Königsfiguren verbot","Weil das Publikum Adlige nicht verstand"],
+    r:1, erk:"Gerührt wird man von dem, worin man sich wiedererkennt. Aus dieser Überlegung folgt der Schauplatzwechsel vom Thronsaal ins Wohnzimmer."},
+   {f:"Welcher Widerspruch bleibt in der bürgerlichen Moral nach dem Text ungelöst?",
+    opt:["Zwischen Vernunft und Gefühl","Zwischen Stadt und Land","Zwischen dem Gebot des Gemeinwohls und der Konkurrenz im Erwerbsleben","Zwischen Katholiken und Protestanten"],
+    r:2, erk:"Der Widerspruch wird nicht aufgelöst, sondern aufgeteilt: Härte nach außen, Güte im Privaten. Die Wohltätigkeit gleicht aus, was der Erwerb kostet."}],
+  fazit:"Behaltet vor allem die letzte Antwort. Ein Widerspruch, der nicht gelöst, sondern räumlich aufgeteilt wird, ist ein hervorragender Motor für Dramen."}
+],
+
+k3:[
+ {typ:"zuordnen", titel:"Die Verteilung der Eigenschaften",
+  auftrag:"Ordnet die Eigenschaften so zu, wie sie im späten 18. Jahrhundert verteilt wurden. Noch einmal: Es geht um Zuschreibungen der Zeit, nicht um Eigenschaften von Menschen.",
+  faecher:[
+   {id:"m", titel:"Dem Mann zugeschrieben", hinweis:"Bereich: Erwerb, Amt, Öffentlichkeit"},
+   {id:"w", titel:"Der Frau zugeschrieben", hinweis:"Bereich: Haus, Familie, Privatheit"}],
+  karten:[{n:"Tätigkeit",z:"m"},{n:"Vernunft",z:"m"},{n:"Willenskraft",z:"m"},{n:"Wirksamkeit nach außen",z:"m"},{n:"Selbständigkeit",z:"m"},
+          {n:"Empfänglichkeit",z:"w"},{n:"Gefühl",z:"w"},{n:"Hingebung",z:"w"},{n:"Häuslichkeit",z:"w"},{n:"Bescheidenheit",z:"w"}],
+  fazit:"Richtig. Lest die beiden Spalten jetzt nebeneinander: Tätigkeit gegen Empfänglichkeit, Vernunft gegen Gefühl, Wirksamkeit nach außen gegen Häuslichkeit. Das sind keine Beobachtungen, sondern Paare. Wer das eine behauptet, hat das andere schon mitbehauptet."},
+
+ {typ:"auswahl", titel:"Die verengte Tugend",
+  auftrag:"Welche Aussagen treffen nach dem Text zu? Drei von sechs sind richtig.",
+  aussagen:[
+   {s:"Weibliche Tugend wird im Kern auf die geschlechtliche Unbescholtenheit zusammengezogen.", r:true,
+    g:"Richtig, und das ist der Ausgangspunkt für alles Weitere."},
+   {s:"Eine Frau kann ihre Tugend durch Leistung mehren, so wie ein Mann sein Ansehen durch Arbeit.", r:false,
+    g:"Falsch. Diese Tugend lässt sich nicht mehren, nur verlieren. Es gibt keine Handlung, die sie vergrößert."},
+   {s:"Weil die Tugend gefährdet ist, erscheint die Aufsicht über die Frau als Fürsorge.", r:true,
+    g:"Richtig. Die Bewachung tritt nicht als Zwang auf, sondern als Sorge — das macht sie schwer angreifbar."},
+   {s:"Die Ehre der Tochter ist ihre Privatangelegenheit.", r:false,
+    g:"Falsch. Sie gehört zum Ansehen der Familie und damit zu deren Kapital. Deshalb entscheidet der Vater über sie."},
+   {s:"Für die Beschädigung der Ehre kommt es darauf an, was tatsächlich geschehen ist.", r:false,
+    g:"Falsch. Ehre besteht im Ansehen bei anderen. Ein Gerücht genügt, die Tatsachen sind zweitrangig."},
+   {s:"Anders als beim Mann gibt es für eine beschädigte weibliche Ehre keinen Weg zurück.", r:true,
+    g:"Richtig — der härteste Befund des Kapitels."}],
+  fazit:"Die drei richtigen Aussagen bilden eine Kette: Verengung auf einen Zustand, daraus die Bewachung, daraus die Unwiederbringlichkeit. Wenn ihr diese Kette behaltet, versteht ihr später sehr schnell, warum eine literarische Figur in dieser Lage keine Wahl mehr zu haben glaubt."},
+
+ {typ:"quiz", titel:"Wer sagt was?",
+  auftrag:"Die Unterordnung war umstritten. Ordnet die Positionen den Personen zu.",
+  fragen:[
+   {f:"Wer bestimmte 1762 die Erziehung der Frau ganz von den Männern her — gefallen, nützlich sein, geliebt werden?",
+    opt:["Immanuel Kant","Jean-Jacques Rousseau","Theodor Gottlieb von Hippel","Sophie von La Roche"],
+    r:1, erk:"Rousseau im „Émile“, Buch V. Bemerkenswert ist der Widerspruch zum selben Autor, der die Freiheit als Gehorsam gegen selbstgegebene Gesetze bestimmt."},
+   {f:"Wer warf seiner Zeit vor, sie erkläre die Hälfte ihrer Mitglieder für unmündig und nenne das dann Natur?",
+    opt:["Joachim Heinrich Campe","Christian Wolff","Theodor Gottlieb von Hippel","Gotthold Ephraim Lessing"],
+    r:2, erk:"Hippel, 1792, Königsberger Bürgermeister. Er nimmt Kants Begriff der selbstverschuldeten Unmündigkeit beim Wort und wendet ihn gegen die eigene Gesellschaft."},
+   {f:"Wer argumentierte, die angebliche weibliche Schwäche sei das Ergebnis der Erziehung und nicht der Natur?",
+    opt:["Mary Wollstonecraft","Dorothea Erxleben","Olympe de Gouges","Anna Louisa Karsch"],
+    r:0, erk:"Wollstonecraft, London 1792. Das Argument dreht Ursache und Wirkung um — eine bis heute gängige Denkfigur."},
+   {f:"Was ist an der Veröffentlichung von Sophie von La Roches Roman 1771 bezeichnend?",
+    opt:["Er erschien ohne Titel","Wieland gab ihn heraus und rechtfertigte ihn im Vorwort","Er wurde verboten","Er erschien zuerst auf Französisch"],
+    r:1, erk:"Die Autorschaft einer Frau brauchte eine männliche Beglaubigung. Die Form der Veröffentlichung sagt so viel wie der Inhalt."}],
+  fazit:"Merkt euch den Befund hinter den Namen: Wer die Ordnung verteidigte, musste argumentieren und griff dabei zum Argument der Natur. Das ist nicht die Sprache der Selbstverständlichkeit, sondern die der Verteidigung."},
+
+ {typ:"wege", titel:"Durchgespielt: ein Modellfall",
+  auftrag:"Ein erfundener, aber nach den Verhältnissen der Zeit gebauter Fall. Tippt jeden Weg an und lest, woran er scheitert. Erst wenn alle geprüft sind, erscheint das Fazit.",
+  lage:"Eine siebzehnjährige Kaufmannstochter in einer deutschen Residenzstadt, um 1770. Die Familie ist wohlhabend und angesehen, aber ohne Titel. Ein Angehöriger des Hofes zeigt seit Wochen ein Interesse an ihr, das sie nicht erwidert und nicht loswird. In der Stadt wird darüber gesprochen.",
+  gruppen:[
+   {frage:"Erste Frage: Was kann sie selbst unternehmen?",
+    wege:[
+     {t:"Sie ruft ein Gericht an.", f:"Welches? Ein Hofangehöriger untersteht der Gerichtsbarkeit des Fürsten. Ein Verfahren gegen ihn müsste derjenige betreiben, dessen Haus er angehört.", s:"Rechtsweg versperrt"},
+     {t:"Sie verlässt die Stadt.", f:"Womit? Sie verfügt über kein eigenes Vermögen und über keinen Beruf. Reise und Unterkunft hingen an Erlaubnis und Geld ihres Vaters.", s:"Keine eigenen Mittel"},
+     {t:"Sie schweigt und wartet ab.", f:"Das Gerede läuft weiter. Da ihre Ehre am Ansehen hängt und nicht an ihren Handlungen, arbeitet die Zeit gegen sie.", s:"Der Ruf beschädigt sich von selbst"},
+     {t:"Sie geht auf das Interesse ein.", f:"Eine Ehe über den Standesunterschied hinweg ist nicht vorgesehen. Bliebe die Stellung als Mätresse — Versorgung gegen den Verlust jeder bürgerlichen Achtbarkeit, auch für ihre Familie.", s:"Keine Ehe möglich"},
+     {t:"Sie wendet sich an die Öffentlichkeit.", f:"Es gibt keine, die zuständig wäre. Zeitungen sind zensiert, politische Versammlungen gibt es nicht — und eine Frau hätte dort ohnehin keine Stimme.", s:"Keine zuständige Öffentlichkeit"}]},
+   {frage:"Zweite Frage: Was kann ihr Vater unternehmen?",
+    wege:[
+     {t:"Er klagt.", f:"Dasselbe Hindernis. Sein Bürgerrecht verschafft ihm keinen Zugang zu einem Gericht über dem Hof.", s:"Rechtsweg versperrt"},
+     {t:"Er setzt wirtschaftlichen Druck ein.", f:"Als Kaufmann ist er auf Privilegien, Konzessionen und Aufträge angewiesen, die vom Hof vergeben werden. Der Druck ließe sich leichter gegen ihn wenden.", s:"Abhängigkeit statt Druckmittel"},
+     {t:"Er verheiratet seine Tochter rasch anderweitig.", f:"Das funktioniert — und ist der übliche Weg. Die Ehre wird gerettet, indem die Tochter einem anderen Mann übergeben wird. Gefragt wird sie nicht.", s:"Gangbar — auf ihre Kosten"},
+     {t:"Er zieht mit der Familie fort.", f:"Möglich, aber teuer. Bürgerrecht, Zunftrechte und Kundschaft sind ortsgebunden; die wirtschaftliche Existenz beginnt von vorn. Und der Anlass des Wegzugs reist mit.", s:"Existenz gefährdet"}]}],
+  fazit:"Von neun Wegen führt genau einer nicht ins Leere — und der rettet die Ehre, indem er über die Tochter verfügt. Das ist keine Zuspitzung für den Unterricht, sondern die Logik der Verhältnisse, die ihr in drei Kapiteln erarbeitet habt: Wo nach außen keine Handlung möglich ist, richtet sich das Handeln nach innen. Merkt euch diesen Satz. Ihr werdet ihm in den nächsten Wochen wiederbegegnen, und dann sollt ihr sagen können, warum das, was dort geschieht, kein Ausrutscher einzelner Figuren ist."}
+]
+};
+
+const QUELLEN = [
+ ["Sozialgeschichte des Bürgertums","Zur Lage der „mittleren Stände“, zur Zersplitterung des Reiches und zum Bildungsaufstieg im Staatsdienst."],
+ ["Bürgerliche Öffentlichkeit","Zur Entstehung eines räsonierenden Publikums in Wochenschriften, Lesegesellschaften und Leihbibliotheken; zur Leserevolution nach 1750."],
+ ["Karin Hausen (1976)","Die Polarisierung der Geschlechtscharaktere — Grundlage des dritten Kapitels, hier durchgehend in eigener Formulierung wiedergegeben."],
+ ["Quellen des 18. Jahrhunderts","Rousseau, Émile (1762) · Sophie von La Roche, Geschichte des Fräuleins von Sternheim (1771) · Joachim Heinrich Campe, Väterlicher Rath für meine Tochter (1789) · Olympe de Gouges, Erklärung der Rechte der Frau (1791) · Theodor Gottlieb von Hippel, Über die bürgerliche Verbesserung der Weiber (1792) · Mary Wollstonecraft, A Vindication of the Rights of Woman (1792)."],
+ ["Recht","Allgemeines Landrecht für die Preußischen Staaten (1794); zur Geschlechtsvormundschaft in den Territorien."],
+ ["Literatur","Lessing, Miss Sara Sampson (1755) als Beginn des bürgerlichen Trauerspiels; Lessings Bestimmung des Mitleids als Wirkung der Tragödie."],
+ ["Zum Modellfall","Der Fall in Kapitel 3 ist erfunden und bildet die Verhältnisse typisierend ab. Er ist kein überliefertes Einzelschicksal."]
+];
+
+/* ==================== Werkzeug ==================== */
+const $ = s => document.querySelector(s);
+const el = (t,c,x)=>{const e=document.createElement(t); if(c)e.className=c; if(x!==undefined)e.textContent=x; return e;};
+const mische = a=>{const c=[...a];for(let i=c.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[c[i],c[j]]=[c[j],c[i]];}return c;};
+
+const stand = {};   // "k1-0" -> true
+function fortschritt(){
+  ["k1","k2","k3"].forEach(k=>{
+    const n = AUFGABEN[k].length;
+    const fertig = AUFGABEN[k].filter((_,i)=>stand[k+"-"+i]).length;
+    const p = document.querySelector('.punkt[data-kap="'+k+'"]');
+    if (p) p.classList.toggle("voll", fertig===n);
+  });
+}
+function erledigt(kap, idx){ stand[kap+"-"+idx]=true; fortschritt(); }
+
+function rueck(box, txt, art){
+  const p = box.querySelector(".rueck");
+  if (!p) return;   // Rueckmeldefeld entsteht erst mit der Knopfzeile
+  p.textContent = txt;
+  p.className = "rueck" + (art ? " "+art : "");
+}
+
+function rahmen(a, nr){
+  const d = el("div","aufgabe");
+  const kopf = el("div","a-kopf");
+  kopf.appendChild(el("span","a-nr","Aufgabe "+nr));
+  kopf.appendChild(el("h4","a-titel",a.titel));
+  d.appendChild(kopf);
+  d.appendChild(el("p","auftrag",a.auftrag));
+  return d;
+}
+function zeile(d, knoepfe){
+  const z = el("div","knopfzeile");
+  z.appendChild(el("p","rueck",""));
+  knoepfe.forEach(b=>z.appendChild(b));
+  d.appendChild(z);
+  return z;
+}
+function knopf(txt, cls, fn){
+  const b = el("button","tat"+(cls?" "+cls:""),txt);
+  b.onclick = fn;
+  return b;
+}
+
+/* ==================== Typ: zuordnen ==================== */
+function bauZuordnen(a, kap, idx, nr){
+  const d = rahmen(a, nr);
+  const vorrat = el("div","vorrat");
+  const faecher = el("div","faecher");
+  const z = {gewaehlt:null, geloest:{}};
+
+  const neuVerteilen = ()=>{
+    vorrat.innerHTML=""; faecher.innerHTML="";
+    z.gewaehlt=null; z.geloest={};
+    mische(a.karten).forEach(k=>{
+      const c = el("button","chip",k.n);
+      c.dataset.name = k.n;
+      c.onclick = ()=>{
+        if (z.geloest[k.n]) return;
+        const schon = z.gewaehlt===c;
+        d.querySelectorAll(".chip.gewaehlt").forEach(x=>x.classList.remove("gewaehlt"));
+        if (schon){ z.gewaehlt=null; return; }
+        c.classList.add("gewaehlt"); z.gewaehlt=c;
+      };
+      vorrat.appendChild(c);
+    });
+    a.faecher.forEach(f=>{
+      const box = el("div","fach");
+      box.dataset.fach = f.id;
+      box.appendChild(el("h4",null,f.titel));
+      box.appendChild(el("p",null,f.hinweis));
+      box.appendChild(el("div","fach-inhalt"));
+      box.onclick = ()=>{
+        if (!z.gewaehlt){ rueck(d,"Wählt zuerst eine Karte aus.",""); return; }
+        const c = z.gewaehlt;
+        c.classList.remove("gewaehlt","falsch");
+        box.querySelector(".fach-inhalt").appendChild(c);
+        z.gewaehlt=null; rueck(d,"","");
+      };
+      faecher.appendChild(box);
+    });
+  };
+  neuVerteilen();
+  d.appendChild(vorrat); d.appendChild(faecher);
+
+  const pruefen = ()=>{
+    let richtig=0, falsch=0;
+    faecher.querySelectorAll(".fach").forEach(f=>{
+      const ziel = f.dataset.fach;
+      [...f.querySelectorAll(".chip")].forEach(c=>{
+        const k = a.karten.find(x=>x.n===c.dataset.name);
+        if (z.geloest[k.n]) return;
+        if (k.z===ziel || k.auch===ziel){
+          z.geloest[k.n]=true; richtig++;
+          c.classList.remove("falsch"); c.classList.add("richtig");
+        } else {
+          falsch++; c.classList.add("falsch");
+          setTimeout(()=>{ c.classList.remove("falsch"); vorrat.appendChild(c); }, 650);
+        }
+      });
+    });
+    const gesetzt = Object.keys(z.geloest).length;
+    if (gesetzt===a.karten.length){ erledigt(kap,idx); rueck(d,a.fazit,"gut"); }
+    else if (falsch===0 && richtig>0) rueck(d, richtig+" richtig. Noch "+(a.karten.length-gesetzt)+" offen.","gut");
+    else if (falsch>0) rueck(d, falsch+" Karte(n) liegen falsch und wandern zurück. Schaut im Text nach.","schlecht");
+    else rueck(d,"Legt erst Karten in die Felder.","");
+  };
+
+  zeile(d,[knopf("Prüfen","primaer",pruefen), knopf("Zurücklegen",null,()=>{neuVerteilen();rueck(d,"","");})]);
+  d.dataset.pruef = "1";
+  d._pruefen = pruefen;
+  return d;
+}
+
+/* ==================== Typ: reihenfolge ==================== */
+function bauReihenfolge(a, kap, idx, nr){
+  const d = rahmen(a, nr);
+  const box = el("div","folge");
+  let ordnung = [];
+
+  const zeichnen = ()=>{
+    box.innerHTML="";
+    ordnung.forEach((sIdx,pos)=>{
+      const s = el("div","stufe");
+      s.dataset.idx = String(sIdx);
+      s.appendChild(el("span","stufe-pos",String(pos+1)));
+      s.appendChild(el("span","stufe-text",a.schritte[sIdx]));
+      const kn = el("div","stufe-knoepfe");
+      const hoch = el("button",null,"\u2191");
+      const runter = el("button",null,"\u2193");
+      hoch.onclick = ()=>{ if(pos>0){ [ordnung[pos-1],ordnung[pos]]=[ordnung[pos],ordnung[pos-1]]; zeichnen(); } };
+      runter.onclick = ()=>{ if(pos<ordnung.length-1){ [ordnung[pos+1],ordnung[pos]]=[ordnung[pos],ordnung[pos+1]]; zeichnen(); } };
+      kn.appendChild(hoch); kn.appendChild(runter);
+      s.appendChild(kn);
+      box.appendChild(s);
+    });
+  };
+  const neu = ()=>{
+    ordnung = mische(a.schritte.map((_,i)=>i));
+    if (ordnung.every((v,i)=>v===i)) ordnung.reverse();
+    zeichnen(); rueck(d,"","");
+  };
+  neu();
+  d.appendChild(box);
+
+  const pruefen = ()=>{
+    let falsch = 0;
+    box.querySelectorAll(".stufe").forEach((s,pos)=>{
+      const passt = ordnung[pos]===pos;
+      s.classList.toggle("richtig",passt);
+      s.classList.toggle("falsch",!passt);
+      if (!passt) falsch++;
+    });
+    if (falsch===0){ erledigt(kap,idx); rueck(d,a.fazit,"gut"); }
+    else rueck(d, falsch+" von "+a.schritte.length+" Schritten stehen noch nicht richtig. Fragt bei jedem Paar: Was muss zuerst gelten, damit das andere folgen kann?","schlecht");
+  };
+
+  zeile(d,[knopf("Reihenfolge prüfen","primaer",pruefen), knopf("Neu mischen",null,neu)]);
+  d._pruefen = pruefen;
+  d._ordnung = ()=>ordnung;
+  d._schieben = (pos,richtung)=>{
+    const stufen = box.querySelectorAll(".stufe");
+    stufen[pos].querySelectorAll("button")[richtung==="hoch"?0:1].click();
+  };
+  return d;
+}
+
+/* ==================== Typ: auswahl ==================== */
+function bauAuswahl(a, kap, idx, nr){
+  const d = rahmen(a, nr);
+  const box = el("div","auswahl");
+  a.aussagen.forEach((s,i)=>{
+    const b = el("button","aussage");
+    b.dataset.pos = String(i);
+    b.appendChild(el("span","kasten"));
+    const t = el("span");
+    t.appendChild(el("span",null,s.s));
+    t.appendChild(el("span","grund",s.g));
+    b.appendChild(t);
+    b.onclick = ()=>{ if(!b.classList.contains("auf")) b.classList.toggle("an"); };
+    box.appendChild(b);
+  });
+  d.appendChild(box);
+
+  const pruefen = ()=>{
+    let treffer = 0;
+    box.querySelectorAll(".aussage").forEach((b,i)=>{
+      const an = b.classList.contains("an"), soll = a.aussagen[i].r;
+      b.classList.add("auf");
+      b.classList.toggle("richtig", an===soll);
+      b.classList.toggle("falsch", an!==soll);
+      if (an===soll) treffer++;
+    });
+    erledigt(kap,idx);
+    rueck(d, treffer+" von "+a.aussagen.length+" richtig eingeschätzt. "+a.fazit, treffer===a.aussagen.length?"gut":"");
+  };
+
+  zeile(d,[knopf("Prüfen","primaer",pruefen)]);
+  d._pruefen = pruefen;
+  return d;
+}
+
+/* ==================== Typ: lückentext ==================== */
+function bauLuecke(a, kap, idx, nr){
+  const d = rahmen(a, nr);
+  const vorrat = el("div","vorrat");
+  const text = el("div","lueckentext");
+  const z = {wort:null, luecke:null};
+
+  mische(a.woerter).forEach(w=>{
+    const c = el("button","chip",w);
+    c.dataset.wort = w;
+    c.onclick = ()=>{
+      if (c.dataset.verbraucht) return;
+      const schon = z.wort===c;
+      d.querySelectorAll(".chip.gewaehlt").forEach(x=>x.classList.remove("gewaehlt"));
+      if (schon){ z.wort=null; return; }
+      c.classList.add("gewaehlt"); z.wort=c;
+      if (z.luecke) fuellen(z.luecke);
+    };
+    vorrat.appendChild(c);
+  });
+
+  function fuellen(l){
+    if (!z.wort) return;
+    if (l.dataset.wort){
+      const alt = vorrat.querySelector('.chip[data-wort="'+l.dataset.wort+'"]');
+      if (alt){ alt.dataset.verbraucht=""; delete alt.dataset.verbraucht; alt.style.display=""; }
+    }
+    l.dataset.wort = z.wort.dataset.wort;
+    l.textContent = z.wort.dataset.wort;
+    l.classList.add("gefuellt");
+    l.classList.remove("gewaehlt");
+    z.wort.style.display = "none";
+    z.wort.dataset.verbraucht = "1";
+    z.wort = null; z.luecke = null;
+    rueck(d,"","");
+  }
+
+  a.saetze.forEach(s=>{
+    const p = el("p");
+    p.appendChild(el("span",null,s.v));
+    const l = el("button","luecke","\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0");
+    l.dataset.loesung = s.l;
+    l.onclick = ()=>{
+      if (l.classList.contains("richtig")) return;
+      if (l.dataset.wort && !z.wort){
+        const c = vorrat.querySelector('.chip[data-wort="'+l.dataset.wort+'"]');
+        if (c){ c.style.display=""; delete c.dataset.verbraucht; }
+        delete l.dataset.wort;
+        l.textContent = "\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0";
+        l.classList.remove("gefuellt","falsch");
+        return;
+      }
+      d.querySelectorAll(".luecke.gewaehlt").forEach(x=>x.classList.remove("gewaehlt"));
+      l.classList.add("gewaehlt"); z.luecke = l;
+      if (z.wort) fuellen(l);
+    };
+    p.appendChild(l);
+    p.appendChild(el("span",null,s.n));
+    text.appendChild(p);
+  });
+
+  d.appendChild(vorrat);
+  d.appendChild(text);
+
+  const pruefen = ()=>{
+    let richtig=0, falsch=0, leer=0;
+    d.querySelectorAll(".luecke").forEach(l=>{
+      if (l.classList.contains("richtig")){ richtig++; return; }
+      if (!l.dataset.wort){ leer++; return; }
+      if (l.dataset.wort === l.dataset.loesung){ l.classList.add("richtig"); l.classList.remove("falsch","gefuellt"); richtig++; }
+      else { l.classList.add("falsch"); falsch++; }
+    });
+    if (richtig===a.saetze.length){ erledigt(kap,idx); rueck(d,a.fazit,"gut"); }
+    else if (leer) rueck(d, "Noch "+leer+" Lücke(n) frei.","");
+    else rueck(d, falsch+" Einsetzung(en) passen nicht. Antippen löst sie wieder.","schlecht");
+  };
+
+  zeile(d,[knopf("Prüfen","primaer",pruefen)]);
+  d._pruefen = pruefen;
+  return d;
+}
+
+/* ==================== Typ: quiz ==================== */
+function bauQuiz(a, kap, idx, nr){
+  const d = rahmen(a, nr);
+  const wahl = {};
+  a.fragen.forEach((f,i)=>{
+    const block = el("div","frage-block");
+    block.appendChild(el("p","frage-text",(i+1)+". "+f.f));
+    const opts = el("div","optionen");
+    f.opt.forEach((o,j)=>{
+      const b = el("button","option",o);
+      b.dataset.frage = String(i); b.dataset.opt = String(j);
+      b.onclick = ()=>{
+        if (block.dataset.auf) return;
+        opts.querySelectorAll(".option").forEach(x=>x.classList.remove("an"));
+        b.classList.add("an"); wahl[i]=j;
+        rueck(d, Object.keys(wahl).length+" von "+a.fragen.length+" beantwortet.","");
+      };
+      opts.appendChild(b);
+    });
+    block.appendChild(opts);
+    block.appendChild(el("div","frage-erk",f.erk));
+    d.appendChild(block);
+  });
+
+  const pruefen = ()=>{
+    let treffer=0;
+    d.querySelectorAll(".frage-block").forEach((block,i)=>{
+      block.dataset.auf = "1";
+      block.querySelectorAll(".option").forEach((b,j)=>{
+        b.classList.remove("an");
+        if (j===a.fragen[i].r) b.classList.add("richtig");
+        else if (wahl[i]===j) b.classList.add("falsch");
+      });
+      if (wahl[i]===a.fragen[i].r) treffer++;
+      block.querySelector(".frage-erk").classList.add("offen");
+    });
+    erledigt(kap,idx);
+    rueck(d, treffer+" von "+a.fragen.length+" richtig. "+a.fazit, treffer===a.fragen.length?"gut":"");
+  };
+
+  zeile(d,[knopf("Auflösen","primaer",pruefen)]);
+  d._pruefen = pruefen;
+  return d;
+}
+
+/* ==================== Typ: wege ==================== */
+function bauWege(a, kap, idx, nr){
+  const d = rahmen(a, nr);
+  const fall = el("div","fall");
+  fall.appendChild(el("p","fall-lage",a.lage));
+  let gesamt = 0;
+  a.gruppen.forEach(g=>{
+    fall.appendChild(el("p","fall-frage",g.frage));
+    const box = el("div","wege");
+    g.wege.forEach(w=>{
+      gesamt++;
+      const b = el("button","weg");
+      b.appendChild(el("span",null,w.t));
+      const f = el("span","weg-folge");
+      f.appendChild(el("span",null,w.f));
+      f.appendChild(el("span","sperre",w.s));
+      b.appendChild(f);
+      b.onclick = ()=>{
+        b.classList.add("auf");
+        const auf = fall.querySelectorAll(".weg.auf").length;
+        if (auf===gesamt){
+          erledigt(kap,idx);
+          rueck(d, a.fazit, "gut");
+        } else rueck(d, auf+" von "+gesamt+" Wegen geprüft.","");
+      };
+      box.appendChild(b);
+    });
+    fall.appendChild(box);
+  });
+  d.appendChild(fall);
+  zeile(d,[]);
+  return d;
+}
+
+/* ==================== Aufbau ==================== */
+const BAUER = {zuordnen:bauZuordnen, reihenfolge:bauReihenfolge, auswahl:bauAuswahl, luecke:bauLuecke, quiz:bauQuiz, wege:bauWege};
+
+function uebungenBauen(kap, zielId){
+  const ziel = $("#"+zielId);
+  ziel.appendChild(el("h3",null,"Verstanden?"));
+  ziel.appendChild(el("p","vorsatz","Prüft euer Verständnis. Bei Unsicherheit im Text oben nachschlagen — das ist keine Klassenarbeit, sondern eine Kontrolle für euch selbst."));
+  AUFGABEN[kap].forEach((a,i)=>{
+    const bauer = BAUER[a.typ];
+    if (!bauer) return;
+    const d = bauer(a, kap, i, i+1);
+    d.dataset.kap = kap; d.dataset.pos = String(i);
+    ziel.appendChild(d);
+  });
+}
+
+function reiterBauen(){
+  const namen = [["k1","1","Bürgertum"],["k2","2","Tugend und Moral"],["k3","3","Rolle der Frau"],["k4","","Anhang"]];
+  const box = $("#reiter");
+  namen.forEach(([id,zahl,name])=>{
+    const b = el("button");
+    if (zahl){
+      b.appendChild(el("span","zahl",zahl));
+      const p = el("span","punkt"); p.dataset.kap = id;
+      b.appendChild(p);
+    }
+    b.appendChild(el("span",null,name));
+    b.dataset.ziel = id;
+    b.onclick = ()=>{
+      document.querySelectorAll(".kapitel").forEach(k=>k.classList.toggle("an", k.dataset.id===id));
+      box.querySelectorAll("button").forEach(x=>x.classList.toggle("an", x===b));
+      window.scrollTo({top:0, behavior:"auto"});
+    };
+    box.appendChild(b);
+  });
+  box.querySelectorAll("button")[0].classList.add("an");
+}
+
+function worterklaerungen(){
+  ["1","2","3"].forEach(n=>{
+    const kap = $("#k"+n);
+    const feld = $("#erk"+n);
+    if (!kap || !feld) return;
+    kap.querySelectorAll(".wort").forEach(w=>{
+      w.onclick = ()=>{
+        const schon = w.classList.contains("an");
+        kap.querySelectorAll(".wort.an").forEach(x=>x.classList.remove("an"));
+        if (schon){ feld.classList.remove("offen"); return; }
+        w.classList.add("an");
+        feld.innerHTML = "";
+        feld.appendChild(el("b",null,w.textContent+": "));
+        feld.appendChild(el("span",null,w.dataset.erk));
+        feld.classList.add("offen");
+      };
+    });
+  });
+}
+
+function quellenBauen(){
+  const box = $("#quellen");
+  QUELLEN.forEach(([wer,was])=>{
+    const z = el("span");
+    z.appendChild(el("b",null,wer+": "));
+    z.appendChild(el("span",null,was));
+    box.appendChild(z);
+    box.appendChild(document.createElement("br"));
+    box.appendChild(document.createElement("br"));
+  });
+}
+
+document.querySelectorAll(".kapitel").forEach(k=>{ k.dataset.id = k.id; });
+reiterBauen();
+uebungenBauen("k1","u1");
+uebungenBauen("k2","u2");
+uebungenBauen("k3","u3");
+worterklaerungen();
+quellenBauen();
+fortschritt();
+</script>
+</body>
+</html>

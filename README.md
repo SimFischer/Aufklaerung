@@ -1,116 +1,122 @@
-# Zitate-Puzzle: Aufklärung
+# Aufklärung
 
-Interaktives Zuordnungs-Arbeitsblatt für den Deutschunterricht, Jahrgangsstufe 11.
-Vierzehn Zitate zur Epoche der Aufklärung (Kant, Lichtenberg, Montesquieu,
-Rousseau, Schiller sowie Sekundärtexte) sind in Anfang und Schluss zerlegt und
-müssen wieder zusammengesetzt werden.
+Zwei Unterrichtseinheiten für die Jahrgangsstufe 11, als statische Website.
+Kein Server, keine Datenbank, keine externen Anfragen, keine Cookies. Es werden
+keine Daten der Lernenden gespeichert oder übertragen.
 
-Die Seite läuft vollständig im Browser. Es gibt keinen Server, keine Datenbank,
-keine externen Anfragen und keine Cookies. Es werden keine Daten der Lernenden
-gespeichert oder übertragen.
+| Datei | Inhalt |
+|---|---|
+| `index.html` | Startseite mit den Links zu beiden Einheiten |
+| `lernstrecke.html` | Drei Kapitel: Bürgertum, Tugend und Moral, Rolle der Frau — je Fachtext und Aufgaben |
+| `zitate-puzzle.html` | Zuordnungsübung mit vierzehn Zitaten der Aufklärung |
+| `.nojekyll` | leere Datei; verhindert, dass GitHub die Dateien durch Jekyll schickt |
 
 ---
 
-## Auf GitHub Pages veröffentlichen
+## Veröffentlichen über GitHub Pages
 
-Einmalig etwa fünf Minuten, danach funktioniert der Link dauerhaft auf jedem
-Gerät — auch auf dem iPad.
+Einmalig etwa fünf Minuten. Danach funktioniert der Link dauerhaft auf jedem
+Gerät, auch auf dem iPad.
 
-1. Auf [github.com](https://github.com) anmelden (kostenloses Konto genügt).
+1. Auf [github.com](https://github.com) anmelden. Ein kostenloses Konto genügt.
 2. Oben rechts auf **+** → **New repository**.
-3. Einen Namen vergeben, zum Beispiel `zitate-puzzle`.
-   Sichtbarkeit auf **Public** stellen — GitHub Pages ist für private
-   Repositories nur in kostenpflichtigen Tarifen verfügbar.
+3. Namen vergeben, zum Beispiel `aufklaerung`.
+   Sichtbarkeit auf **Public** stellen — Pages ist für private Repositories nur
+   in kostenpflichtigen Tarifen verfügbar.
 4. **Create repository**.
-5. Auf der nächsten Seite auf **uploading an existing file** klicken
-   (der Link steht mitten im Text) und die drei Dateien aus diesem Ordner
-   hineinziehen: `index.html`, `README.md`, `.nojekyll`.
-6. Unten auf **Commit changes** klicken.
-7. Im Repository oben auf **Settings**, links in der Leiste auf **Pages**.
-8. Unter *Build and deployment* bei *Source* **Deploy from a branch** wählen,
-   bei *Branch* **main** und den Ordner **/ (root)**, dann **Save**.
-9. Ein bis zwei Minuten warten, dann die Seite **Settings → Pages** neu laden.
-   Oben steht jetzt die Adresse, ungefähr so:
-   `https://deinbenutzername.github.io/zitate-puzzle/`
+5. Auf der folgenden Seite auf **uploading an existing file** klicken. Der Link
+   steht mitten im Text. Dann alle Dateien dieses Ordners hineinziehen.
+6. Unten auf **Commit changes**.
+7. Im Repository auf **Settings**, links auf **Pages**.
+8. Bei *Source* **Deploy from a branch**, bei *Branch* **main** und **/ (root)**,
+   dann **Save**.
+9. Ein bis zwei Minuten warten, **Settings → Pages** neu laden. Oben steht die
+   Adresse, etwa `https://deinbenutzername.github.io/aufklaerung/`
 
-Diese Adresse kommt in itslearning als Ressource **Link zu einer Website**.
-Die Lernenden tippen darauf und das Puzzle öffnet sich direkt im Safari.
+Diese Adresse in itslearning als Ressource **Link zu einer Website** eintragen.
+
+### Wichtig beim Hochladen
+
+Die Datei `.nojekyll` beginnt mit einem Punkt und wird auf dem Mac im Finder
+und unter Windows im Explorer standardmäßig ausgeblendet. Auf dem Mac mit
+`Cmd + Shift + .` einblenden, unter Windows über *Ansicht → Ausgeblendete
+Elemente*. Fehlt die Datei, funktioniert die Seite in aller Regel trotzdem.
+
+Die Datei `index.html` muss genau so heißen, sonst zeigt Pages keine Startseite.
 
 ### Später etwas ändern
 
-Im Repository auf `index.html` klicken, dann auf das Stiftsymbol. Nach
-**Commit changes** ist die Änderung nach ein bis zwei Minuten online. Neue
-Zitate stehen ganz unten im Skript im Block `const PAARE = [ … ]`, jeweils als
-`a` (Anfang), `b` (Schluss), `q` (Quelle) und `t` (Tipp).
+Im Repository auf die Datei klicken, dann auf das Stiftsymbol. Nach
+**Commit changes** ist die Änderung nach ein bis zwei Minuten online.
 
 ---
 
-## Ohne GitHub verwenden
+## Ohne GitHub
 
-Die Datei `index.html` läuft auch offline. Auf einem Rechner genügt ein
-Doppelklick. Auf dem iPad ist das nicht zuverlässig: Die Vorschau der
-Dateien-App führt kein JavaScript aus, das Puzzle bleibt dann unbedienbar.
-Deshalb für Tablet-Klassen der Weg über einen Link.
+Auf einem Rechner genügt ein Doppelklick auf `index.html`; die Links zwischen
+den Seiten funktionieren, solange alle Dateien im selben Ordner liegen.
 
-Für Papier: im Puzzle auf **Drucken** klicken. Es erscheint eine reduzierte
-Schwarz-Weiß-Fassung ohne Bedienelemente und ohne Lösungen — als klassisches
-Arbeitsblatt oder, aufgeschnitten, als Legespiel für Gruppenarbeit.
+Auf dem iPad ist das **nicht** zuverlässig: Die Vorschau der Dateien-App führt
+kein JavaScript aus, die Übungen bleiben dann unbedienbar. Für Tablet-Klassen
+deshalb der Weg über einen Link — oder über ein SCORM-Paket in itslearning.
 
----
-
-## Bedienung
-
-Links einen Satzanfang antippen, dann rechts den passenden Schluss. Das Paar
-wird mit Nummer und Buchstabe markiert. Ein erneuter Tipp auf den Satzanfang
-löst das Paar wieder.
-
-**Prüfen** rastet richtige Paare ein, blendet erst dann die Quelle ein und löst
-falsche Paare auf. **Tipp geben** liefert einen inhaltlichen Denkanstoß zu einem
-offenen Zitat, nicht die Lösung. **Neu mischen** startet von vorn.
-
-Der Balken oben zeigt den Fortschritt.
+Für Papier: auf jeder Seite die Druckfunktion des Browsers verwenden. Es
+erscheint eine reduzierte Schwarz-Weiß-Fassung ohne Bedienelemente.
 
 ---
 
-## Hinweis zur Aufgabe
+## Inhalte anpassen
 
-Die beiden Montesquieu-Zitate beginnen fast gleich und beide Schlüsse handeln
-von „Beziehungen". Das ist Absicht: Hier merken die Lernenden, dass
-grammatische Anschlussfähigkeit nicht genügt. Das Pronomen „ihr" im einen
-Schluss braucht die „ursprüngliche Vernunft" aus dem Anfang als Bezugswort.
+Alle Inhalte stehen in den HTML-Dateien selbst, jeweils im `<script>`-Block am
+Ende beziehungsweise im Text darüber.
+
+**Lernstrecke.** Die Fachtexte stehen als normaler HTML-Text in den drei
+`<article class="fachtext">`-Bereichen. Ein erklärbedürftiger Begriff wird so
+ausgezeichnet:
+
+```html
+<button class="wort" data-erk="Hier steht die Erklärung.">Begriff</button>
+```
+
+Die Aufgaben stehen im Objekt `AUFGABEN`, sortiert nach `k1`, `k2`, `k3`. Jede
+Aufgabe hat ein Feld `typ`; verfügbar sind `zuordnen`, `reihenfolge`, `auswahl`,
+`luecke`, `quiz` und `wege`. Eine Aufgabe zu löschen oder zu ergänzen heißt,
+einen Eintrag aus der Liste zu entfernen oder hinzuzufügen — Nummerierung und
+Fortschrittsanzeige passen sich selbst an.
+
+**Zitate-Puzzle.** Die Paare stehen in `PAARE`, jeweils mit `a` (Anfang),
+`b` (Schluss), `q` (Quelle) und `t` (Tipp). Auch hier rechnet die Seite mit der
+Länge der Liste, nicht mit der festen Zahl vierzehn.
+
+---
+
+## Quellen und Rechte
+
+Die drei Fachtexte der Lernstrecke sind eigens für dieses Material geschrieben
+und geben den Forschungsstand in eigener Formulierung wieder. Sie enthalten
+keine Zitate aus geschützten Darstellungen.
+
+Die Zitate im Puzzle stammen von Kant, Lichtenberg, Montesquieu, Rousseau und
+Schiller und sind gemeinfrei; sie sind im Puzzle mit Werk und Jahr ausgewiesen.
+Fünf Einträge sind dort als *Sekundärtext zur Aufklärung* gekennzeichnet. Sie
+stammen aus dem Arbeitsblatt, aus dem das Puzzle entstanden ist, und ihre
+Herkunft ist nicht vermerkt. Für ein öffentliches Repository empfiehlt sich
+eines von dreien: die Quelle im Feld `q` nachtragen, die Einträge aus `PAARE`
+löschen, oder das Material nicht öffentlich, sondern über itslearning verteilen.
+
+Der Modellfall im dritten Kapitel der Lernstrecke ist erfunden und bildet die
+Verhältnisse typisierend ab. Er ist kein überliefertes Einzelschicksal und im
+Anhang der Seite als solcher gekennzeichnet.
 
 ---
 
 ## Technisches
 
-Eine einzelne HTML-Datei, rund 19 KB, ohne Abhängigkeiten. Systemschriften,
-also keine Verbindung zu Google Fonts. Responsiv bis zur Handybreite,
-Tastaturbedienung mit sichtbarem Fokus, `prefers-reduced-motion` wird beachtet,
-eigene Druckansicht.
+Statische HTML-Dateien ohne Abhängigkeiten, zusammen rund 90 KB. Systemschriften,
+also keine Verbindung zu Google Fonts. Responsiv bis Handybreite, Bedienung per
+Tastatur mit sichtbarem Fokus, `prefers-reduced-motion` wird beachtet, eigene
+Druckansicht je Seite.
 
-Eingebaut ist außerdem eine optionale SCORM-1.2-Anbindung. In einem LMS meldet
-die Seite Fortschritt und Abschluss zurück; außerhalb eines LMS bleibt dieser
-Teil wirkungslos. Für die Nutzung als SCORM-Paket braucht es zusätzlich eine
-`imsmanifest.xml` — auf GitHub Pages wird sie nicht benötigt.
-
-## Quellen
-
-Die Primärzitate von Kant, Lichtenberg, Montesquieu, Rousseau und Schiller
-sind gemeinfrei; die Urheber sind seit weit über siebzig Jahren verstorben.
-Sie sind im Puzzle jeweils mit Werk und Jahr ausgewiesen.
-
-Fünf Einträge sind im Puzzle als *Sekundärtext zur Aufklärung* gekennzeichnet.
-Sie stammen aus dem Arbeitsblatt, aus dem dieses Puzzle entstanden ist; die
-Herkunft ist dort nicht vermerkt. Da ein öffentliches Repository etwas anderes
-ist als eine Kopie für den eigenen Kurs, lohnt sich hier eine Entscheidung:
-
-- Ist die Quelle bekannt, trägt man sie im Skript einfach im Feld `q` des
-  jeweiligen Eintrags nach. Kurze Zitate mit Quellenangabe sind im
-  Unterrichtskontext durch das Zitatrecht gedeckt.
-- Ist sie nicht mehr auffindbar, kann man die betreffenden Einträge
-  ersatzlos aus `PAARE` löschen. Das Puzzle rechnet mit der Länge der Liste
-  und funktioniert mit neun Paaren genauso wie mit vierzehn; Zähler,
-  Fortschrittsbalken und Buchstaben passen sich von selbst an.
-- Alternativ stellt man das Repository auf **Private** und nutzt statt
-  GitHub Pages den SCORM-Weg in itslearning, wo die Inhalte nur der eigenen
-  Lerngruppe zugänglich sind.
+Im Zitate-Puzzle ist zusätzlich eine optionale SCORM-1.2-Anbindung enthalten. In
+einem LMS meldet die Seite Fortschritt und Abschluss zurück; außerhalb eines LMS
+bleibt dieser Teil wirkungslos.
