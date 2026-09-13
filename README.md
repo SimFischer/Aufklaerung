@@ -105,8 +105,7 @@ eines von dreien: die Quelle im Feld `q` nachtragen, die Einträge aus `PAARE`
 löschen, oder das Material nicht öffentlich, sondern über itslearning verteilen.
 
 Der Modellfall im dritten Kapitel der Lernstrecke ist erfunden und bildet die
-Verhältnisse typisierend ab. Er ist kein überliefertes Einzelschicksal und im
-Anhang der Seite als solcher gekennzeichnet.
+Verhältnisse typisierend ab. Er ist kein überliefertes Einzelschicksal.
 
 ---
 
