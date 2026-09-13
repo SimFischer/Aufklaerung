@@ -363,7 +363,7 @@ button.primaer:hover{background:#38566a}
 <div class="bahn">
   <div class="kapitel-kopf">
     <p class="kapitel-nr">Anhang</p>
-    <h2>Grundlagen und Hinweise</h2>
+    <h2>Quellen und Literaturangaben</h2>
   </div>
   <p class="quellen" id="quellen"></p>
 </div>
@@ -529,13 +529,158 @@ k3:[
 };
 
 const QUELLEN = [
- ["Sozialgeschichte des Bürgertums","Zur Lage der „mittleren Stände“, zur Zersplitterung des Reiches und zum Bildungsaufstieg im Staatsdienst."],
- ["Bürgerliche Öffentlichkeit","Zur Entstehung eines räsonierenden Publikums in Wochenschriften, Lesegesellschaften und Leihbibliotheken; zur Leserevolution nach 1750."],
- ["Karin Hausen (1976)","Die Polarisierung der Geschlechtscharaktere — Grundlage des dritten Kapitels, hier durchgehend in eigener Formulierung wiedergegeben."],
- ["Quellen des 18. Jahrhunderts","Rousseau, Émile (1762) · Sophie von La Roche, Geschichte des Fräuleins von Sternheim (1771) · Joachim Heinrich Campe, Väterlicher Rath für meine Tochter (1789) · Olympe de Gouges, Erklärung der Rechte der Frau (1791) · Theodor Gottlieb von Hippel, Über die bürgerliche Verbesserung der Weiber (1792) · Mary Wollstonecraft, A Vindication of the Rights of Woman (1792)."],
- ["Recht","Allgemeines Landrecht für die Preußischen Staaten (1794); zur Geschlechtsvormundschaft in den Territorien."],
- ["Literatur","Lessing, Miss Sara Sampson (1755) als Beginn des bürgerlichen Trauerspiels; Lessings Bestimmung des Mitleids als Wirkung der Tragödie."],
- ["Zum Modellfall","Der Fall in Kapitel 3 ist erfunden und bildet die Verhältnisse typisierend ab. Er ist kein überliefertes Einzelschicksal."]
+  [
+    "Zur Herkunft der Angaben",
+    "Die drei Fachtexte sind eigens formulierte Unterrichtstexte. Die ursprüngliche Fassung nennt die unten aufgeführten Werke, dokumentiert aber weder sämtliche tatsächlich konsultierten Quellen noch die verwendeten Ausgaben und Einzelseiten. Dieses Verzeichnis präzisiert die vorhandenen Nennungen; die verlinkten Nachweise und die als ergänzt bezeichneten Fundstellen wurden am 13.09.2026 nachträglich recherchiert. Sie sind kein rückwirkender Nachweis dafür, welche Ausgaben bei der Texterstellung benutzt wurden."
+  ],
+  [
+    "Kapitel 1 und 2 · nicht dokumentierte Literaturgrundlage",
+    "Die bisherigen Angaben „Sozialgeschichte des Bürgertums“ und „Bürgerliche Öffentlichkeit“ bezeichnen lediglich Themen. Autorin oder Autor, Werktitel, Ausgabe und Seiten fehlen. Auch für Leserevolution, moralische Wochenschriften, bürgerliche Erwerbstugenden, Pietismus und Empfindsamkeit ist keine konkrete ursprünglich verwendete Darstellung dokumentiert. Diese Lücke lässt sich nicht durch ein nachträglich als verwendet ausgegebenes Literaturverzeichnis schließen."
+  ],
+  [
+    "Kapitel 1 und 3 · Immanuel Kant",
+    "Beantwortung der Frage: Was ist Aufklärung? In: Berlinische Monatsschrift, hrsg. von Friedrich Gedike und Johann Erich Biester, Bd. 4, Dezember 1784. Berlin: Haude und Spener, S. 481–494, hier S. 481 (Selbstdenken und Wahlspruch der Aufklärung). Fundstelle für die Anspielungen in den Fachtexten nachträglich ergänzt.",
+    [
+      [
+        "Text mit Originalseitenzählung",
+        "https://de.wikisource.org/wiki/Beantwortung_der_Frage%3A_Was_ist_Aufkl%C3%A4rung%3F"
+      ]
+    ]
+  ],
+  [
+    "Kapitel 2 · Friedrich Schiller",
+    "Über die ästhetische Erziehung des Menschen in einer Reihe von Briefen (1795), 8. Brief, letzter Absatz. Fundstelle zur Verbindung von Verstandesaufklärung und Herzensbildung nachträglich ergänzt. Online-Text ohne Seitenzählung; die ursprünglich verwendete Druckausgabe ist nicht dokumentiert.",
+    [
+      [
+        "8. Brief im Volltext",
+        "https://www.friedrich-schiller-archiv.de/ueber-die-aesthetische-erziehung-des-menschen/achter-brief/"
+      ]
+    ]
+  ],
+  [
+    "Kapitel 2 · Gotthold Ephraim Lessing: Mitleid",
+    "Brief an Friedrich Nicolai vom 13. November 1756, im Briefwechsel über das Trauerspiel. Fundstelle für die Aussage über den mitleidigsten Menschen nachträglich ergänzt. Briefdatum und Empfänger identifizieren den Text; Druckausgabe und Einzelseite der ursprünglichen Materialgrundlage sind nicht dokumentiert.",
+    [
+      [
+        "Nachweis des Briefes in der Deutschen Biographie",
+        "https://www.deutsche-biographie.de/sfz68644.html"
+      ]
+    ]
+  ],
+  [
+    "Kapitel 2 · Gotthold Ephraim Lessing: Drama",
+    "Miß Sara Sampson. Ein Trauerspiel in fünf Aufzügen (zuerst 1755). Bibliografisch nachgewiesene Vergleichsausgabe: Berlin: Voß, 1772. Im Fachtext wird das Werk als Ganzes genannt, kein einzelner Wortlaut zitiert. Eine ursprünglich verwendete Ausgabe oder Einzelseite ist nicht dokumentiert; die Ausgabe von 1772 wird hier nur als auffindbarer Nachweis angegeben.",
+    [
+      [
+        "Ausgabe von 1772 in der Deutschen Digitalen Bibliothek",
+        "https://www.deutsche-digitale-bibliothek.de/item/BHTEOTZBUNCJLCAMQERTFHHYIKMQJMOU"
+      ]
+    ]
+  ],
+  [
+    "Kapitel 3 · Karin Hausen",
+    "Die Polarisierung der „Geschlechtscharaktere“. Eine Spiegelung der Dissoziation von Erwerbs- und Familienleben. In: Werner Conze (Hrsg.): Sozialgeschichte der Familie in der Neuzeit Europas. Neue Forschungen. Stuttgart: Ernst Klett, 1976, S. 363–393. Bereits im ursprünglichen Anhang als Grundlage des dritten Kapitels genannt. Der Seitenbereich bezeichnet den gesamten Aufsatz; eine Zuordnung einzelner Sätze des Fachtextes zu Einzelseiten ist nicht dokumentiert.",
+    [
+      [
+        "Bibliografischer und inhaltlicher Nachweis, Universität Duisburg-Essen",
+        "https://www.uni-due.de/genderportal/geschlechtergeschichte"
+      ],
+      [
+        "Katalognachweis des Sonderdrucks",
+        "https://www.digitales-deutsches-frauenarchiv.de/meta-objekt/die-polarisierung-der-%22geschlechtscharaktere%22---eine-spiegelung-der-dissoziation-von-erwerbs--und-familienleben/35619addf"
+      ]
+    ]
+  ],
+  [
+    "Kapitel 3 · Jean-Jacques Rousseau",
+    "Émile, ou De l’éducation. 4 Bde. La Haye: Jean Néaulme [tatsächlich Paris: Nicolas-Bonaventure Duchesne], 1762 (hier bibliografisch nachgewiesene Ausgabe der Bibliothèque nationale de France). Einschlägig: Buch V, Abschnitt über Sophie und die Erziehung der Frauen. Der Fachtext paraphrasiert Rousseaus Position; eine verwendete deutsche Übersetzung ist nicht dokumentiert. Verlinkter Vergleichstext: französische Ausgabe von 1782, Buch V; deren Seiten dürfen nicht der Ausgabe von 1762 zugeschrieben werden.",
+    [
+      [
+        "Ausgabennachweis der Bibliothèque nationale de France",
+        "https://www.bnf.fr/fr/mediatheque/jean-jacques-rousseau-emile-ou-de-leducation"
+      ],
+      [
+        "Buch V, Vergleichstext von 1782",
+        "https://fr.wikisource.org/wiki/%C3%89mile%2C_ou_De_l%E2%80%99%C3%A9ducation/%C3%89dition_1782/Livre_V"
+      ]
+    ]
+  ],
+  [
+    "Kapitel 3 · Sophie von La Roche",
+    "Geschichte des Fräuleins von Sternheim. Von einer Freundin derselben aus Original-Papieren und andern zuverlässigen Quellen gezogen. Hrsg. von Christoph Martin Wieland. Leipzig: Weidmann und Reich, 1771. Bezug: Veröffentlichung des Romans und Wielands Herausgeberrolle; für die Vorrede ist im ursprünglichen Material keine Einzelseite dokumentiert.",
+    [
+      [
+        "Bibliografischer Nachweis, Universitäts- und Landesbibliothek Sachsen-Anhalt",
+        "https://opendata.uni-halle.de/handle/1981185920/81772"
+      ]
+    ]
+  ],
+  [
+    "Kapitel 3 · Joachim Heinrich Campe",
+    "Väterlicher Rath für meine Tochter. Ein Gegenstück zum Theophron. Der erwachsenern weiblichen Jugend gewidmet. Braunschweig: Schulbuchhandlung, 1789. Nachträglich geprüfte Vergleichsfundstelle zur gesellschaftlichen Unterordnung der Frau: 5. rechtmäßige Ausgabe, Braunschweig: Schulbuchhandlung, 1796, Abschnitt II „Ueber die ungünstigen Verhältnisse des Weibes zur menschlichen Gesellschaft“, S. 21–23. Diese Seitenangabe gilt ausdrücklich für 1796, nicht für 1789.",
+    [
+      [
+        "Auszug mit Ausgaben- und Seitenangabe, Deutsches Historisches Institut Washington",
+        "https://germanhistory-intersections.org/de/deutschsein/ghis:document-303"
+      ],
+      [
+        "Nachweis der Ausgabe von 1789, Göttinger Bibliotheksschriften 29",
+        "https://univerlag.uni-goettingen.de/bitstream/handle/3/isbn-3-930457-65-2/gbs_29.pdf"
+      ]
+    ]
+  ],
+  [
+    "Kapitel 3 · Theodor Gottlieb von Hippel",
+    "Über die bürgerliche Verbesserung der Weiber. Berlin: Voßische Buchhandlung, 1792. Nachträglich ergänzte Fundstelle: Abschnitt II über die behaupteten Unterschiede zwischen Mann und Frau, S. 33–50. Bezug: Kritik an der Naturalisierung weiblicher Unterlegenheit.",
+    [
+      [
+        "Auszug mit Originalseitenangabe, Deutsches Historisches Institut Washington",
+        "https://germanhistorydocs.org/de/das-heilige-roemische-reich-1648-1815/theodor-gottlieb-von-hippel-ueber-die-buergerliche-verbesserung-der-weiber-1792"
+      ],
+      [
+        "Bibliografischer Nachweis der Bayerischen Staatsbibliothek",
+        "https://www.digitale-sammlungen.de/de/details/bsb10435220"
+      ]
+    ]
+  ],
+  [
+    "Kapitel 3 · Mary Wollstonecraft",
+    "A Vindication of the Rights of Woman: With Strictures on Political and Moral Subjects. London: J. Johnson, 1792. Nachträglich geprüfte Fundstelle: Introduction, S. 1–2, zur mangelhaften Erziehung als Ursache der zugeschriebenen weiblichen Schwäche. Verlinkt ist die wissenschaftlich betreute Online-Transkription mit Seitenzählung. Eine ursprünglich verwendete deutsche Übersetzung ist nicht dokumentiert.",
+    [
+      [
+        "Einleitung mit Originalseitenzählung, Literature in Context",
+        "https://anthology.lib.virginia.edu/work/Wollstonecraft/wollstonecraft-vindication-excerpted"
+      ]
+    ]
+  ],
+  [
+    "Kapitel 3 · Olympe de Gouges",
+    "Déclaration des droits de la femme et de la citoyenne (1791), enthalten in der Broschüre Les Droits de la femme. Nachträglich ergänzte Fundstellen: Präambel sowie Artikel I und VI (Gleichheit der Rechte und politische Teilhabe). Nachweis über die französische Nationalversammlung. Der Online-Text hat keine Seitenzählung; Verlagsangabe, ursprüngliche Druckausgabe und verwendete deutsche Übersetzung sind im Unterrichtsmaterial nicht dokumentiert.",
+    [
+      [
+        "Text der Erklärung, Assemblée nationale",
+        "https://www.assemblee-nationale.fr/dyn/histoire-et-patrimoine/revolution-francaise/declaration-des-droits-de-la-femme-et-de-la-citoyenne-olympe-de-gouges"
+      ]
+    ]
+  ],
+  [
+    "Kapitel 3 · Preußisches Allgemeines Landrecht",
+    "Allgemeines Landrecht für die Preußischen Staaten (1794), Zweiter Teil, Erster Titel, § 184 (Vorrang des Mannes in gemeinschaftlichen Angelegenheiten), §§ 188–189 (Vertretung vor Gericht) und §§ 679–682 (Wohnortwechsel und Ausnahmen). Nachträglich am Gesetzestext geprüfte Fundstellen; Paragraphen werden statt ausgabenabhängiger Seitenzahlen angegeben. Das ist ein Nachweis preußischer Vorschriften, kein Beleg für eine einheitliche Rechtslage in allen Territorien. Eine ursprünglich verwendete Druckausgabe ist nicht dokumentiert.",
+    [
+      [
+        "Gesetzestext, Edition Gerhard Köbler",
+        "https://www.koeblergerhard.de/Fontes/ALR2fuerdiepreussischenStaaten1794Teil2.htm"
+      ]
+    ]
+  ],
+  [
+    "Zum Modellfall in Kapitel 3",
+    "Der Fall ist erfunden; es gibt dafür keine historische Fallakte und keine zitierbare Einzelseite. Die vorgegebenen Handlungswege sind eine didaktische Modellierung. Sie belegen nicht, dass Frauen und ihre Familien im gesamten 18. Jahrhundert ausschließlich diese Handlungsmöglichkeiten hatten."
+  ],
+  [
+    "Zum separaten Zitate-Puzzle",
+    "Dieses Verzeichnis betrifft die Lernstrecke. Bei fünf Einträgen des separaten Puzzles lautet die Herkunft nur „Sekundärtext zur Aufklärung“; das zugrunde liegende Arbeitsblatt ist bibliografisch nicht identifiziert. Dafür lassen sich Autorin oder Autor, Werk, Verlag und Seiten derzeit nicht verlässlich angeben."
+  ]
 ];
 
 /* ==================== Werkzeug ==================== */
@@ -962,10 +1107,16 @@ function worterklaerungen(){
 
 function quellenBauen(){
   const box = $("#quellen");
-  QUELLEN.forEach(([wer,was])=>{
+  QUELLEN.forEach(([wer,was,nachweise])=>{
     const z = el("span");
     z.appendChild(el("b",null,wer+": "));
     z.appendChild(el("span",null,was));
+    (nachweise || []).forEach(([titel,url])=>{
+      z.appendChild(document.createElement("br"));
+      const link = el("a",null,titel);
+      link.href = url;
+      z.appendChild(link);
+    });
     box.appendChild(z);
     box.appendChild(document.createElement("br"));
     box.appendChild(document.createElement("br"));
