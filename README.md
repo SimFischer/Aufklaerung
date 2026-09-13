@@ -93,6 +93,24 @@ die Seite Fortschritt und Abschluss zurück; außerhalb eines LMS bleibt dieser
 Teil wirkungslos. Für die Nutzung als SCORM-Paket braucht es zusätzlich eine
 `imsmanifest.xml` — auf GitHub Pages wird sie nicht benötigt.
 
-Die Zitate sind gemeinfrei. Die Sekundärtexte stammen aus dem ursprünglichen
-Arbeitsblatt und sollten vor einer Weitergabe über den Unterricht hinaus
-belegt werden.
+## Quellen
+
+Die Primärzitate von Kant, Lichtenberg, Montesquieu, Rousseau und Schiller
+sind gemeinfrei; die Urheber sind seit weit über siebzig Jahren verstorben.
+Sie sind im Puzzle jeweils mit Werk und Jahr ausgewiesen.
+
+Fünf Einträge sind im Puzzle als *Sekundärtext zur Aufklärung* gekennzeichnet.
+Sie stammen aus dem Arbeitsblatt, aus dem dieses Puzzle entstanden ist; die
+Herkunft ist dort nicht vermerkt. Da ein öffentliches Repository etwas anderes
+ist als eine Kopie für den eigenen Kurs, lohnt sich hier eine Entscheidung:
+
+- Ist die Quelle bekannt, trägt man sie im Skript einfach im Feld `q` des
+  jeweiligen Eintrags nach. Kurze Zitate mit Quellenangabe sind im
+  Unterrichtskontext durch das Zitatrecht gedeckt.
+- Ist sie nicht mehr auffindbar, kann man die betreffenden Einträge
+  ersatzlos aus `PAARE` löschen. Das Puzzle rechnet mit der Länge der Liste
+  und funktioniert mit neun Paaren genauso wie mit vierzehn; Zähler,
+  Fortschrittsbalken und Buchstaben passen sich von selbst an.
+- Alternativ stellt man das Repository auf **Private** und nutzt statt
+  GitHub Pages den SCORM-Weg in itslearning, wo die Inhalte nur der eigenen
+  Lerngruppe zugänglich sind.

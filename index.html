@@ -23,6 +23,8 @@
 }
 
 *{box-sizing:border-box}
+button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.marke{-webkit-user-select:none;user-select:none}
 html{-webkit-text-size-adjust:100%}
 body{
   margin:0;
@@ -63,7 +65,8 @@ h1 em{font-style:italic;color:var(--gold)}
   border:1px solid var(--rand);
   border-radius:3px;
   background:rgba(26,32,64,.55);
-  position:sticky;top:10px;z-index:20;
+  position:-webkit-sticky;position:sticky;top:10px;z-index:20;
+  -webkit-backdrop-filter:blur(8px);
   backdrop-filter:blur(8px);
 }
 .lampe{flex:1 1 220px;min-width:200px}
