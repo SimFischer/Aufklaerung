@@ -179,6 +179,15 @@ button.primaer:hover{background:#38566a}
   border-bottom:1px solid transparent;
 }
 .zurueck:hover{color:var(--hof);border-bottom-color:var(--hof)}
+
+.lernnotizen{max-width:940px;margin:44px auto 0;padding:24px clamp(16px,4vw,32px);border-top:1px solid var(--linie)}
+.lernnotizen h2{font-family:var(--serif);font-size:1.6rem;font-weight:400}
+.lernnotizen p{max-width:65ch;color:var(--tinte-mittel)}
+.lernnotizen label{display:block;font-weight:600;margin:18px 0 6px}
+.lernnotizen textarea{display:block;width:100%;min-height:100px;padding:12px;font:inherit;color:var(--tinte);background:var(--papier-hell);border:1px solid var(--linie)}
+.lernnotizen textarea:focus-visible{outline:2px solid var(--hof);outline-offset:2px}
+.lernnotizen button{margin-top:16px}
+@media print{.lernnotizen{display:none}}
 </style>
 </head>
 <body>
@@ -215,6 +224,18 @@ button.primaer:hover{background:#38566a}
   </section>
 </div>
 
+
+<section class="lernnotizen" aria-labelledby="notizen-titel">
+  <h2 id="notizen-titel">Deine Lernnotizen für die Klausur</h2>
+  <p>Lade am Ende die Texte und deinen aktuellen Arbeitsstand als PDF herunter. Deine Antworten und die Lösungen sind getrennt gekennzeichnet. Auch ein Zwischenstand lässt sich sichern.</p>
+  <label for="eigene-notizen">Eigene Notizen und offene Fragen (optional)</label>
+  <textarea id="eigene-notizen" placeholder="Das möchte ich mir merken …"></textarea>
+  <p>Speichere dein PDF vor dem Schließen oder Neuladen. Deine Eingaben bleiben nur in diesem geöffneten Fenster.</p>
+  <button type="button" class="tat primaer" id="pdf-download">Texte und Ergebnisse als PDF herunterladen</button>
+  <p id="pdf-status" role="status" aria-live="polite"></p>
+</section>
+
+<script src="lernnotizen-pdf.js"></script>
 <script>
 const PAARE = [
   {a:"Aufklärung ist der Ausgang des Menschen aus seiner selbstverschuldeten Unmündigkeit. Unmündigkeit ist …",
@@ -473,6 +494,30 @@ aufbauen();
     try{ API.LMSCommit(""); API.LMSFinish(""); }catch(e){}
   });
 })();
+
+function puzzleNotizen(){
+  const b=[];
+  const add=(text,typ="text")=>b.push({text,typ});
+  add("Aufklärung · Zitate-Puzzle","titel");
+  add("Texte, Ergebnisse und Lernnotizen für die Klausur","untertitel");
+  add("Stand: "+new Date().toLocaleString("de-DE"));
+  add(Object.keys(geloest).length+" von "+PAARE.length+" Zitaten richtig zugeordnet.");
+  PAARE.forEach((p,i)=>{
+    add("Zitat "+(i+1),"heading");
+    add("Satzanfang: "+p.a);
+    const eigene=geloest[i]?i:zuordnung[i];
+    add("Dein Ergebnis: "+(geloest[i]?"richtig gelöst":eigene===undefined?"noch nicht zugeordnet":"zugeordnet, noch nicht bestätigt")+".");
+    if(eigene!==undefined) add("Dein Satzschluss: "+PAARE[eigene].b);
+    add("Vollständiger Text (Lösung): "+p.a.replace(/\s*…\s*$/,"")+" "+p.b.replace(/^…\s*/,""),"loesung");
+    add("Quelle: "+p.q+(p.q==="Sekundärtext zur Aufklärung"?" (genaue Herkunft im Ausgangsmaterial nicht angegeben)":""));
+    add("Lernhinweis: "+p.t,"loesung");
+  });
+  add("Eigene Notizen und offene Fragen","kapitel");
+  add(document.getElementById("eigene-notizen").value.trim()||"Keine eigenen Notizen eingetragen.");
+  return b;
+}
+document.getElementById("pdf-download").onclick=()=>LernnotizenPDF.download(puzzleNotizen(),"aufklaerung-zitate-puzzle");
+
 </script>
 
 </body>

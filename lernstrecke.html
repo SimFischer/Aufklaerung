@@ -192,6 +192,15 @@ button.primaer:hover{background:#38566a}
   border-bottom:1px solid transparent;
 }
 .zurueck:hover{color:var(--hof);border-bottom-color:var(--hof)}
+
+.lernnotizen{max-width:940px;margin:44px auto 0;padding:24px clamp(16px,4vw,32px);border-top:1px solid var(--linie)}
+.lernnotizen h2{font-family:var(--serif);font-size:1.6rem;font-weight:400}
+.lernnotizen p{max-width:65ch;color:var(--tinte-mittel)}
+.lernnotizen label{display:block;font-weight:600;margin:18px 0 6px}
+.lernnotizen textarea{display:block;width:100%;min-height:100px;padding:12px;font:inherit;color:var(--tinte);background:var(--papier-hell);border:1px solid var(--linie)}
+.lernnotizen textarea:focus-visible{outline:2px solid var(--hof);outline-offset:2px}
+.lernnotizen button{margin-top:16px}
+@media print{.lernnotizen{display:none}}
 </style>
 </head>
 <body>
@@ -369,6 +378,18 @@ button.primaer:hover{background:#38566a}
 </div>
 </div>
 
+
+<section class="lernnotizen" aria-labelledby="notizen-titel">
+  <h2 id="notizen-titel">Deine Lernnotizen für die Klausur</h2>
+  <p>Lade am Ende die Texte und deinen aktuellen Arbeitsstand als PDF herunter. Deine Antworten und die Lösungen sind getrennt gekennzeichnet. Auch ein Zwischenstand lässt sich sichern.</p>
+  <label for="eigene-notizen">Eigene Notizen und offene Fragen (optional)</label>
+  <textarea id="eigene-notizen" placeholder="Das möchte ich mir merken …"></textarea>
+  <p>Speichere dein PDF vor dem Schließen oder Neuladen. Deine Eingaben bleiben nur in diesem geöffneten Fenster.</p>
+  <button type="button" class="tat primaer" id="pdf-download">Texte und Ergebnisse als PDF herunterladen</button>
+  <p id="pdf-status" role="status" aria-live="polite"></p>
+</section>
+
+<script src="lernnotizen-pdf.js"></script>
 <script>
 "use strict";
 
@@ -390,7 +411,7 @@ k1:[
   fazit:"Richtig. Achtet auf das Gewicht: Die erste Gruppe war in Deutschland besonders stark, weil dreihundert Territorien dreihundert Verwaltungen brauchten. Wer über Bildung aufstieg, stieg im Dienst des Fürsten auf — und damit nicht gegen ihn."},
 
  {typ:"auswahl", titel:"Stimmt das so?",
-  auftrag:"Kreuzt nur die Aussagen an, die nach dem Text zutreffen. Vier von sieben sind richtig.",
+  auftrag:"Kreuzt nur die Aussagen an, die nach dem Text zutreffen. Drei von sieben sind richtig.",
   aussagen:[
    {s:"Das Bürgertum stellte im 18. Jahrhundert die Mehrheit der Bevölkerung.", r:false,
     g:"Falsch. Der weitaus größte Teil der Menschen lebte auf dem Land und arbeitete in der Landwirtschaft."},
@@ -404,9 +425,9 @@ k1:[
     g:"Falsch. Reformen kamen von oben. Aufgeklärt waren die Mittel, absolut blieb der Anspruch."},
    {s:"In den Lesegesellschaften galt die Regel, dass das bessere Argument zählt und nicht der höhere Rang.", r:true,
     g:"Richtig. Das ist die entscheidende Übung: öffentlich urteilen nach Gründen."},
-   {s:"Die bürgerliche Öffentlichkeit verhandelte von Anfang an politische Fragen.", r:true,
+   {s:"Die bürgerliche Öffentlichkeit verhandelte von Anfang an politische Fragen.", r:false,
     g:"Das ist nicht richtig — sie verhandelte zunächst Literatur, Geschmack, Erziehung und Moral. Die politische Anwendung kam später. Diese Aussage war die schwierigste."}],
-  fazit:"Die vier zutreffenden Aussagen hängen zusammen: Eine Gruppe ohne politische Rechte entwickelt eine Ersatzarena, in der andere Regeln gelten als draußen. Genau deshalb wird Literatur im 18. Jahrhundert so wichtig."},
+  fazit:"Die drei zutreffenden Aussagen hängen zusammen: Eine Gruppe ohne politische Rechte entwickelt eine Ersatzarena, in der andere Regeln gelten als draußen. Genau deshalb wird Literatur im 18. Jahrhundert so wichtig."},
 
  {typ:"luecke", titel:"Begriffe an ihren Platz",
   auftrag:"Setzt die Fachbegriffe ein. Zwei Wörter bleiben übrig — sie passen in keine Lücke.",
@@ -966,7 +987,7 @@ function bauQuiz(a, kap, idx, nr){
       b.onclick = ()=>{
         if (block.dataset.auf) return;
         opts.querySelectorAll(".option").forEach(x=>x.classList.remove("an"));
-        b.classList.add("an"); wahl[i]=j;
+        b.classList.add("an"); wahl[i]=j; block.dataset.antwort=String(j);
         rueck(d, Object.keys(wahl).length+" von "+a.fragen.length+" beantwortet.","");
       };
       opts.appendChild(b);
@@ -1115,6 +1136,87 @@ uebungenBauen("k3","u3");
 worterklaerungen();
 quellenBauen();
 fortschritt();
+
+function lernstreckeNotizen(){
+  const b = [];
+  const add = (text, typ="text")=>b.push({text,typ});
+  add("Aufklärung · Lernstrecke", "titel");
+  add("Texte, Ergebnisse und Lernnotizen für die Klausur", "untertitel");
+  add("Stand: "+new Date().toLocaleString("de-DE"));
+  add("Momentaufnahme deiner Eingaben. Die Lösungshinweise dienen dem Nacharbeiten; sie sind keine eigenen Antworten.");
+  ["k1","k2","k3"].forEach(kap=>{
+    const k=document.getElementById(kap);
+    add(k.querySelector("h2").textContent,"kapitel");
+    k.querySelector(".fachtext").querySelectorAll("p,h3").forEach(p=>add(p.textContent,p.tagName==="H3"?"heading":"text"));
+    add("Begriffe zum Nachschlagen","heading");
+    k.querySelectorAll(".wort").forEach(w=>add(w.textContent+": "+w.dataset.erk));
+    add("Deine Ergebnisse und Lösungshinweise","heading");
+    AUFGABEN[kap].forEach((a,i)=>{
+      const d=k.querySelectorAll(".aufgabe")[i];
+      add("Aufgabe "+(i+1)+": "+a.titel,"heading");
+      add(a.auftrag);
+      if(a.typ==="zuordnen"){
+        a.karten.forEach(karte=>{
+          const chip=[...d.querySelectorAll(".chip")].find(c=>c.dataset.name===karte.n);
+          const fach=chip.closest(".fach");
+          const ziel=a.faecher.find(f=>f.id===karte.z).titel;
+          add(karte.n+" — Deine Zuordnung: "+(fach?fach.querySelector("h4").textContent:"noch nicht zugeordnet")+".");
+          add("Lösung: "+ziel+(karte.auch?" / "+a.faecher.find(f=>f.id===karte.auch).titel:"")+".","loesung");
+        });
+      } else if(a.typ==="reihenfolge"){
+        add("Deine aktuelle Reihenfolge (anfangs zufällig gemischt):");
+        d.querySelectorAll(".stufe-text").forEach((s,j)=>add((j+1)+". "+s.textContent));
+        add("Lösung:","loesung");
+        a.schritte.forEach((s,j)=>add((j+1)+". "+s,"loesung"));
+      } else if(a.typ==="auswahl"){
+        const geprueft=!!d.querySelector(".aussage.auf");
+        a.aussagen.forEach((s,j)=>{
+          const an=d.querySelectorAll(".aussage")[j].classList.contains("an");
+          add(s.s);
+          add("Deine Auswahl: "+(an?"angekreuzt":"nicht angekreuzt")+(geprueft?" (geprüft).":" (noch nicht geprüft)."));
+          add("Lösung: "+(s.r?"zutreffend. ":"nicht zutreffend. ")+s.g,"loesung");
+        });
+      } else if(a.typ==="luecke"){
+        a.saetze.forEach((s,j)=>{
+          add("Lösung: "+s.v+"["+s.l+"]"+s.n,"loesung");
+          const w=d.querySelectorAll(".luecke")[j].dataset.wort;
+          add("Deine Einsetzung: "+(w||"noch nicht ausgefüllt")+".");
+        });
+      } else if(a.typ==="quiz"){
+        a.fragen.forEach((f,j)=>{
+          const block=d.querySelectorAll(".frage-block")[j];
+          add((j+1)+". "+f.f);
+          add("Deine Antwort: "+(block.dataset.antwort===undefined?"noch nicht beantwortet":f.opt[Number(block.dataset.antwort)])+".");
+          add("Lösung: "+f.opt[f.r]+". "+f.erk,"loesung");
+        });
+      } else if(a.typ==="wege"){
+        add(a.lage);
+        let j=0;
+        a.gruppen.forEach(g=>{
+          add(g.frage,"heading");
+          g.wege.forEach(w=>{
+            const gelesen=d.querySelectorAll(".weg")[j++].classList.contains("auf");
+            add(w.t+" — "+(gelesen?"von dir geöffnet":"noch nicht geöffnet"));
+            add("Einordnung: "+w.f+" ("+w.s+")","loesung");
+          });
+        });
+      }
+      const feedback=d.querySelector(".rueck").textContent;
+      add("Rückmeldung der App: "+(feedback||"Noch keine Prüfung bzw. Rückmeldung."));
+      add("Merksatz / Lösungshinweis: "+a.fazit,"loesung");
+    });
+  });
+  add("Eigene Notizen und offene Fragen","kapitel");
+  add(document.getElementById("eigene-notizen").value.trim()||"Keine eigenen Notizen eingetragen.");
+  add("Quellen und Nachweise","kapitel");
+  QUELLEN.forEach(([wer,was,nachweise])=>{
+    add(wer,"heading");add(was);
+    (nachweise||[]).forEach(([titel,url])=>add(titel+": "+url));
+  });
+  return b;
+}
+document.getElementById("pdf-download").onclick=()=>LernnotizenPDF.download(lernstreckeNotizen(),"aufklaerung-lernstrecke");
+
 </script>
 </body>
 </html>
